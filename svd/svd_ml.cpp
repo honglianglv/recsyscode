@@ -303,8 +303,8 @@ int main(int argc, char ** argv)
     float alpha1 = 0.01;  //0.0045according to the paper of "a guide to SVD for CF"
     float alpha2 = 0.01;  //0.0045according to the paper of "a guide to SVD for CF"
     float beta1 = 0.05;   //0.015 according to the paper of "a guide to SVD for CF"
-    float beta2 = 0.05;   //0.015 according to the paper of "a guide to SVD for CF"
-    					 //0.0005 according the experiment
+    float beta2 = 0.05;   //according my own experiment,beta=0.05 is very good ,the RMSE of movielens(1M) test 
+    					  //can get the 0.868692  at step=44
     
     //for(int i=0; i < 10; i++)
     {
