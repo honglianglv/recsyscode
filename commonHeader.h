@@ -9,8 +9,7 @@
  * my google profile:https://profiles.google.com/honglianglv/about?hl=en
  *
  * It is free software; you can redistribute it and/or modify it under 
- * the GNU General Public License as published by the Free Software
- * Foundation; the version is 3.
+ * the license GPLV3.
  *
  * this file contains some  General Function include lib 
  */
@@ -36,6 +35,15 @@ using namespace std;
 
 struct rateNode
 {
+	short item;
+	short rate;
+};
+
+//use different struct between test set and training set to save memory space
+//when the training set is very large( eg netflix dataset), the saving space is significant
+struct testSetNode
+{
+	int user;
 	short item;
 	short rate;
 };
