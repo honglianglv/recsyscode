@@ -9,8 +9,7 @@
  * my google profile:https://profiles.google.com/honglianglv/about?hl=en
  *
  * It is free software; you can redistribute it and/or modify it under 
- * the GNU General Public License as published by the Free Software
- * Foundation; the version is 3.
+ * the license GPLV3.
  *
  * this file contains some  General Function use in most model
  */
@@ -72,7 +71,6 @@ double get_rand(int dim)
  */
 void setRand(double  p[], int dim, float base)
 {
-    srand((unsigned)time(0));
     for(int i=1;i<dim+1;++i){
         double temp = base+get_rand(dim);
         p[i] = temp;
