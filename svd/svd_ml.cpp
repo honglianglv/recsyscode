@@ -112,7 +112,7 @@ namespace svd{
         RMSEProbe(probeRow);
         
         //main loop
-        for(int step = 0; step < 60; ++step){  //只迭代60次
+        for(int step = 0; step < 190; ++step){  //只迭代60次
             long double rmse = 0.0;
             int n = 0;
             for( u = 1; u < USER_NUM+1; ++u) {   //循环处理每一个用户 
@@ -138,13 +138,13 @@ namespace svd{
                     rmse += eui * eui; ++n;
                     if(n % 10000000 == 0)cout<<"step:"<<step<<"    n:"<<n<<" dealed!"<<endl;
                     
-                    bu[u] += alpha1 * (eui - beta1 * bu[u]);
-                    bi[itemI] += alpha1 * (eui - beta1 * bi[itemI]);
+                    //bu[u] += alpha1 * (eui - beta1 * bu[u]);
+                    //bi[itemI] += alpha1 * (eui - beta1 * bi[itemI]);
                     
                     for( k=1; k< K_NUM+1; ++k) {
-                           //double tempPu = p[u][k];
+                           double tempPu = p[u][k];
                            p[u][k] += alpha2 * (eui*q[itemI][k] - beta2*p[u][k]);
-                           q[itemI][k] += alpha2 * (eui*p[u][k] - beta2*q[itemI][k]);
+                           q[itemI][k] += alpha2 * (eui*tempPu - beta2*q[itemI][k]);
                        }
                 } 
             }
@@ -156,8 +156,8 @@ namespace svd{
             cout << step << "\t" << nowRmse <<'\t'<< preRmse<<"     n:"<<n<<endl;
             RMSEProbe(probeRow);;  // check test set rmse
             
-            alpha1 *= 0.9;    //逐步减小学习速率
-            alpha2 *= 0.9;
+            //alpha1 *= 0.9;    //逐步减小学习速率
+            //alpha2 *= 0.9;
         }
         RMSEProbe(probeRow);  // 检查训练集情况
         return;
