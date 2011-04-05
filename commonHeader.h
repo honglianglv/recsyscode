@@ -47,5 +47,5 @@ struct testSetNode
 	short item;
 	short rate;
 };
-
+float predictRate(int user,int item,int dim);
 #endif // COMMONHEADER_H_
