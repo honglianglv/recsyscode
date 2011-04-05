@@ -43,11 +43,11 @@ void explode(const char * probe,  string dataStr ,vector<string> &result)
 }
 
 /**
- * 计算全局的平均值
+ * calculate the mean of all the ratings
  */
 float setMeanRating(int userNum, vector< vector<rateNode> > rateMatrixLocal)
 {
-    //计算平均值;
+    //calculate the mean
     double sum = 0;
     int num = 0;
     cout<<"beging mean:"<<endl;
@@ -67,7 +67,7 @@ double get_rand(int dim)
 }
 
 /**
- * setRand的值
+ * set the vector to random values
  */
 void setRand(double  p[], int dim, float base)
 {
@@ -78,7 +78,7 @@ void setRand(double  p[], int dim, float base)
 }
 
 /**
- *  将fileName中的数据 load 入 array a中
+ *  load the data in the fileName to array a
  */
 void loadArray(float a[],char* fileName,int length)
 {
@@ -97,6 +97,23 @@ void loadArray(float a[],char* fileName,int length)
         ++i;
     }
     in.close();
+}
+
+//compute the rmse of test set
+double RMSEProbe(vector<testSetNode>& probeSet,int dim)
+{
+    int probeSize = probeSet.size();
+    float pRate,err;
+    long double rmse = 0;
+    
+    for(int i = 0; i < probeSize; ++i) {
+        pRate = predictRate(probeSet[i].user,probeSet[i].item,dim);      //predict rate
+        err = pRate-probeSet[i].rate;
+        rmse += err*err;
+    }
+    rmse = sqrt( rmse / probeSize);
+    cout<<"RMSE:"<<rmse<<" probeNum:"<<probeSize<<endl;
+    return rmse;
 }
 
 #endif // COMMON_CPP_
