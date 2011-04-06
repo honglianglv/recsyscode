@@ -38,14 +38,14 @@ the steps to quick start
   * 获得测试数据
      # movielens 数据可以直接从官方网站下[http://www.grouplens.org/node/73 movielens_dataset]
      # netflix 数据官方目前不提供，可以从我的博客上下载[http://www.lifecrunch.biz/archives/207 netflix_dataset]
-        下载后预处理步骤在这里：[http://code.google.com/p/recsyscode/wiki/netflixpreprocess netflix数据集预处理步骤]
+     # 下载后预处理步骤在这里：[http://code.google.com/p/recsyscode/wiki/netflixpreprocess netflix数据集预处理步骤]
   * 开始试用第一个model-svd
      # 将代码check out到本地
      # 下载movielens的数据集，解压缩，并且把u1.test,u1.base这两个文件放入./dataset/movielens/文件夹中
      # 检查/svd/svd_ml.cpp define部分参数是否正确
      # 编译运行
-       cd ./svd/
-       g++ svd_ml.cpp
+       cd ./svd/<br/>
+       g++ svd_ml.cpp<br/>
        ./a.out
   * 结果比较
     想知道你的结果是否正确，可以参考koren SIGKDD‘08的论文，或者 Ma, C C（Guide to Singular Value Decomposition for Collaborative Filtering）的结果。本人运行的结果在这里：[http://code.google.com/p/recsyscode/wiki/SVDResult svd结果],[http://code.google.com/p/recsyscode/wiki/knnResults knn结果]。欢迎大家把自己运行的结果贴上来
