@@ -7,7 +7,7 @@ Some questions when I implement the algorithms
 
 = Details =
 * 问题如下
-  # KNN算法中，如何存储稀疏的rate矩阵，是否可以用一个map数组存储？
+  # KNN算法中，如何存储稀疏的rate矩阵，是否可以用一个map数组存储？目前可以，training ratings占用2.4G内存
   # test 
 
 Add your content here.  Format your content with:
