@@ -11,68 +11,79 @@
  * It is free software; you can redistribute it and/or modify it under 
  * the license GPLV3.
  *
- * This file contains some common operations of movielens dataset, for example reading the test set
+ * This file contains some common operations of netflix dataset, for example reading the test set
  * and reading the test set
  *
- * the ratings of  training set store in the array (USER X ITEM, user is the row ,and item is the column)
+ * the ratings of  training set store in the array (ITEM X USER, item is the row ,and user is the column)
  */
-#ifndef MLBASE_CPP_
-#define MLBASE_CPP_
+#ifndef NETFLIXITEMBASE_CPP_
+#define NETFLIXITEMBASE_CPP_
 
 /**
- * load the training set of movielens dataset
+ * load the training set of netflix dataset
  * 
  */
-void loadRating(char * fileName, vector< vector<rateNode> >& rateMatrixLocal, const char * separator)
+void loadRating(char * fileName, vector< vector<rateNode> >& rateMatrixLocal, const char* separator)
 {
     char rateStr[256];
-    char* pch;   
+    char* pch;    
+    vector<string> rateDetail;
     int fileNum = 0;
     std::ifstream from (fileName);
     if (!from.is_open()) {
-        cout << "can't open input file!\n";
-        exit(1);
-    }
-        
-    int itemId = 0, userId = 0, rate = 0;
-    string strTemp = "";
+    	cout << "can't open  operation failed!\n";
+    	exit(1);
+  	}
     
+    int itemId = 0, userId = 0, rate = 0;
     while(from.getline(rateStr,256)){
-        string strTemp(rateStr);
-        if(strTemp.length() < 3)continue;
-        	
-        int i = 0;
+    	string strTemp(rateStr);
+		int pos = strTemp.find(":");
+	    if(-1 != pos) {
+	    	itemId = atoi(strTemp.substr(0,pos).c_str());
+	    	if(0 == itemId ) {
+	    		cout<<strTemp<<"#####################"<<pos<<"####"<<strTemp.substr(0,pos).c_str()<<endl;
+	    		exit(1);
+	    	}		
+	    	 ++fileNum;	 
+	    	if(fileNum %3000 ==0) {
+	    		cout<<"read file "<<fileNum<<" sucessfully!"<<endl;
+	    	}
+	    	continue;
+	    }
+    	if(strTemp.length() < 3)continue;
+    	int i = 0;
     	pch = strtok (rateStr,separator);
 	    while (pch != NULL) {
 	        if(0 == i) userId = atoi(pch);
-	        else if(1 == i) itemId = atoi(pch);
-	        else if(2 == i) rate = atoi(pch);
-	        else if(i > 2) break;
+	        else if(1 == i) rate = atoi(pch);
+	        else if(i > 1) break;
 	        ++i;
 	        pch = strtok (NULL,separator);
 	  	}
-        if(0 == itemId || 0 == userId ||  0 == rate ) {
-            cout<<strTemp<<"#####################userId:"<<userId<<" itemId:"<<itemId<<" rate:"<<rate<<endl;
-            exit(1);
-        }
-        //³õÊ¼»¯rateMatrix
-        try {
-            rateNode tmpNode;
-            tmpNode.item = itemId;
-            tmpNode.rate = (short)rate;
-            rateMatrixLocal[userId].push_back(tmpNode);
-        }
-        catch (bad_alloc& ba){
-                cerr << "bad_alloc caught: " << ba.what() << endl;
-        }
+    	if(0 == itemId || 0 == userId ||  0 == rate) {
+    		cout<<strTemp<<"#####################"<<endl;
+    		exit(1);
+    	}		
+    	//initialization rateMatrix
+    	try {
+    		rateNode tmpNode;
+    		tmpNode.user = userId;
+    		tmpNode.rate = (short)rate;
+    		rateMatrixLocal[itemId].push_back(tmpNode);
+    	}
+    	catch (bad_alloc& ba) {
+    		cerr << "bad_alloc caught: " << ba.what() << endl;
+    		cout << "Can't allocate the momery!" << endl; exit(1);
+    	}
     }
     from.close();
-    cout<<"read training set file sucessfully!"<<endl;
+   	cout<<"read file sucessfully!"<<endl;
     return;
 }
 
 
-//load test set
+//load test set of netflix dataset
 void loadProbe(char * fileName,vector<testSetNode>& probeSet, const char* separator)
 {
     ifstream in(fileName);
@@ -92,8 +103,8 @@ void loadProbe(char * fileName,vector<testSetNode>& probeSet, const char* separa
         int i = 0;
         pch = strtok (rateStr,separator);
 	    while (pch != NULL) {
-	        if(0 == i) userId = atoi(pch);
-	        else if(1 == i) itemId = atoi(pch);
+	        if(0 == i) itemId = atoi(pch);
+	        else if(1 == i) userId = atoi(pch);
 	        else if(2 == i) rateValue = atoi(pch);
 	        else if(i > 2) break;
 	        ++i;
@@ -115,4 +126,4 @@ void loadProbe(char * fileName,vector<testSetNode>& probeSet, const char* separa
     cout << "Load " << probeNum << " test ratings successfully!"<<endl;
     in.close(); 
 }
-#endif // MLBASE_CPP_ 
+#endif // NETFLIXITEMBASE_CPP_

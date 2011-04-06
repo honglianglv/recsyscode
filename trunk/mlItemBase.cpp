@@ -13,11 +13,12 @@
  *
  * This file contains some common operations of movielens dataset, for example reading the test set
  * and reading the test set
+ * the ratings of  training set store in the array (ITEM X USER, item is the row ,and user is the column)
  *
- * the ratings of  training set store in the array (USER X ITEM, user is the row ,and item is the column)
+ * the ratings of  training set store in the array (ITEM X USER, item is the row ,and user is the column)
  */
-#ifndef MLBASE_CPP_
-#define MLBASE_CPP_
+#ifndef MLITEMBASE_CPP_
+#define MLITEMBASE_CPP_
 
 /**
  * load the training set of movielens dataset
@@ -58,9 +59,9 @@ void loadRating(char * fileName, vector< vector<rateNode> >& rateMatrixLocal, co
         //≥ı ºªØrateMatrix
         try {
             rateNode tmpNode;
-            tmpNode.item = itemId;
+            tmpNode.user = userId;
             tmpNode.rate = (short)rate;
-            rateMatrixLocal[userId].push_back(tmpNode);
+            rateMatrixLocal[itemId].push_back(tmpNode);
         }
         catch (bad_alloc& ba){
                 cerr << "bad_alloc caught: " << ba.what() << endl;
@@ -115,4 +116,4 @@ void loadProbe(char * fileName,vector<testSetNode>& probeSet, const char* separa
     cout << "Load " << probeNum << " test ratings successfully!"<<endl;
     in.close(); 
 }
-#endif // MLBASE_CPP_ 
+#endif // MLITEMBASE_CPP_ 
