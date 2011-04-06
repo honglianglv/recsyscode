@@ -1,11 +1,13 @@
-#summary One-sentence summary of this page.
+#summary Some questions when I implement the algorithms
 
 = Introduction =
 
-Add your content here.
+Some questions when I implement the algorithms
 
 
 = Details =
+*1.* KNN算法中，如何存储稀疏的rate矩阵，是否可以用一个map数组存储？
+*2.* 
 
 Add your content here.  Format your content with:
   * Text in *bold* or _italic_
