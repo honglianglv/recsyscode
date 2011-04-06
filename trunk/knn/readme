@@ -1,0 +1,6 @@
+KNN model here refers specifically to item-item knn model.
+
+The calculating process of knn model is as follows:
+1.calculate the similarity of two items and store the similarity matrix to a file
+2. for every item, find the its k-th largest similarity
+3. when predict the rate of user u to item i, just use the rate of items who rated by u and the similarity betweent it and i is greater than k-th largest similarity.
