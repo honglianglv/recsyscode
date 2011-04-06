@@ -1,0 +1,17 @@
+#labels netflix,dataset,transfer
+#the steps of pre-process the netflix dataset.
+
+= Introduction =
+
+the steps of pre-process the netflix dataset
+
+
+= Details =
+
+the steps of pre-process the netflix dataset is as follows:
+  * make the userId sequential  
+    (1)scan all the ratings to get a map between original userId and new sequential userId , getUserSeqId.php
+    (2)scan all the rating files and transfer the rating to new sequential userId    
+  * split the probe set and training set
+    (1)
+  * Automatic links to other wiki pages
