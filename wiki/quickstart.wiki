@@ -1,0 +1,15 @@
+#the steps to quick start
+
+= Introduction =
+
+the steps to quick start
+
+
+= Details =
+
+快速使用本project的步骤:
+  * 认识目录结构
+    |-
+
+  * 获得测试数据
+  * 开始试用第一个model-svd
