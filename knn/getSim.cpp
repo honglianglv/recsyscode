@@ -22,7 +22,7 @@
     note: the similarity matrix we get must be symmetrical,or there are something wrong.
  *    
  *  if the source is movielens, then get the similarity file by knn::getSimMatrix();
- *  if the source is movielens, then get the similarity file by knn::getSimMatrix("netflix");
+ *  if the source is netflix, then get the similarity file by knn::getSimMatrix("netflix");
  */
 #include "../commonHeader.h"
 
@@ -76,13 +76,13 @@ namespace knn{
         }
         
         //output the similarity matrix
-        ofstream outputw(source);
+	    ofstream outputw(source);
 	    for(i=1; i < ITEM_NUM+1; ++i)
 	    {
+	    	outputw <<i<<":"<<endl;
 	    	for(j=1; j < ITEM_NUM+1; ++j) {
-	    		outputw << w[i][j] << "\t";
+	    		outputw << j << "\t" << w[i][j]<<endl;
 	    	}
-	    	outputw << endl;
 	    }
 	    outputw.close();
 	    cout<<"successfully exit!"<<endl;
