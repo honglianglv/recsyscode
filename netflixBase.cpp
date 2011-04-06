@@ -13,9 +13,11 @@
  *
  * This file contains some common operations of netflix dataset, for example reading the test set
  * and reading the test set
+ *
+ * the ratings of  training set store in the array (USER X ITEM, user is the row ,and item is the column)
  */
-#ifndef NETFLIX_CPP_
-#define NETFLIX_CPP_
+#ifndef NETFLIXBASE_CPP_
+#define NETFLIXBASE_CPP_
 
 /**
  * load the training set of netflix dataset
@@ -124,4 +126,4 @@ void loadProbe(char * fileName,vector<testSetNode>& probeSet, const char* separa
     cout << "Load " << probeNum << " test ratings successfully!"<<endl;
     in.close(); 
 }
-#endif // NETFLIX_CPP_
+#endif // NETFLIXBASE_CPP_

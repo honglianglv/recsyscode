@@ -15,156 +15,168 @@
  */
 #ifndef KNN_KNNBASE_CPP_
 #define KNN_KNNBASE_CPP_
-namespace svd{
-  	//use some global variables，store the parameter bu, bi, p, q
-	double bu[USER_NUM+1] = {0};       // the user bias in the baseline predictor
-    double bi[ITEM_NUM+1] = {0};       // the item bias in the baseline predictor
-    
-    int buNum[USER_NUM+1] = {0};       //用户u打分的item总数， num of user ratings
-    int biNum[ITEM_NUM+1] = {0};       //打过item i分的用户总数 num of item ratings
-    
-    double p[USER_NUM+1][K_NUM+1] = {0};   //用于存储用户的属性描述p   user character Matrix
-    double q[ITEM_NUM+1][K_NUM+1] = {0};   //用于item的属性描述q       item character Matrix
-    float mean = 0;                         //全局的平均值             mean of all ratings
+namespace knn{
+  	//use some global variables，s(similarity matrix) 
+  	double mi[ITEM_NUM+1] = {0.0};             //store the mean rating of each item
+  	int    biNum[ITEM_NUM+1] = {0};       //打过item i分的用户总数 num of item ratings
+	float s[ITEM_NUM+1][ITEM_NUM+1] = {0};    //item-item相似矩阵 item-item similarity matrix
+	float kmax[ITEM_NUM+1] = {0};             //k-max array ,the k-max similarity of each item
+    //map<int,int> rateMatrix[ITEM_NUM+1];      //use a map array to store the sparse matrix of training-set rating 
+    float mean = 0.0;
     
     vector < vector<rateNode> > rateMatrix(USER_NUM+1);   //store training set
     vector<testSetNode> probeRow;                            //store test set
     
-	//initialize the bias bu and bi, the method in the page 2 of koren's TKDD'09 paper
-	void initialBais()
+	//load the similarity matrix from file
+	void loadSimMatrix(float s[ITEM_NUM+1][ITEM_NUM+1], const char* simFile)
 	{
-		using namespace svd;
+		char rateStr[256];
+	    char* pch;    
+	    int itemNum = 0;
+	    std::ifstream from(simFile);
+	    if (!from.is_open()) {
+	    	cout << "can't open  operation failed!\n";
+	    	exit(1);
+	  	}
+	    char* separator = "	";
+	    int itemI = 0, itemJ = 0;
+	    float sim = 0.0;
+	    while(from.getline(rateStr,256)){
+	    	string strTemp(rateStr);
+			int pos = strTemp.find(":");
+		    if(-1 != pos) {
+		    	itemI = atoi(strTemp.substr(0,pos).c_str());
+		    	
+		    	if(0 == itemI ) {
+		    		cout<<strTemp<<"#####################"<<endl;
+		    		exit(1);
+		    	}
+		    	++itemNum;	 
+		    	if(itemNum %3000 ==0) {
+		    		cout<<"read item "<<itemNum<<" sucessfully!"<<endl;
+		    	}
+		    	continue;
+		    }
+	    	if(strTemp.length() < 3)continue;
+	    	int i = 0;
+	    	pch = strtok (rateStr,separator);
+		    while (pch != NULL) {
+		        if(0 == i) itemJ = atoi(pch);
+		        else if(1 == i) sim = atof(pch);
+		        else if(i > 1) break;
+		        ++i;
+		        pch = strtok (NULL,separator);
+		  	}
+	    	if(0 == itemI || 0 == itemJ) {
+	    		cout<<strTemp<<"#####################"<<endl;
+	    		exit(1);
+	    	}		
+	        s[itemI][itemJ] = sim;
+	    }
+	    from.close();
+	    cout<<"end load training rate!"<<endl;
+	}
+	
+	//load k-max similarity value from file
+	void loadKMax(float kmaxLocal[ITEM_NUM+1], const char* fileName, const char* separator)
+	{
+		char rateStr[256];
+	    char* pch;   
+	    int fileNum = 0;
+	    std::ifstream from (fileName);
+	    if (!from.is_open()) {
+	        cout << "can't open input file!\n";
+	        exit(1);
+	    }
+	        
+	    int itemId = 0;
+	    float simTmp = 0.0;
+	    string strTemp = "";
+	    
+	    while(from.getline(rateStr,256)){
+	        string strTemp(rateStr);
+	        if(strTemp.length() < 3)continue;
+	        int i = 0;
+	    	pch = strtok (rateStr,separator);
+		    while (pch != NULL) {
+		        if(0 == i) itemId = atoi(pch);
+		        else if(1 == i) simTmp = atof(pch);
+		        else if(i > 1) break;
+		        ++i;
+		        pch = strtok (NULL,separator);
+		  	}
+	        if(0 == itemId) {
+	            cout<<strTemp<<"#####################"<<endl;
+	            exit(1);
+	        }
+	        kmaxLocal[itemId] = simTmp;
+	    }
+	    from.close();
+	    cout<<"read k-max file sucessfully!"<<endl;
+	    return;
+	}
+	
+	void getItemMean()
+	{
+		//求mi，即每个item的平均打分
+        using namespace knn;
 	    int i,j;
 	    for(i = 1; i < USER_NUM+1; ++i){
 	    	int vSize = rateMatrix[i].size();
 			for(j=0; j < vSize; ++j) {
-				bi[rateMatrix[i][j].item] += (rateMatrix[i][j].rate - mean);
+				mi[rateMatrix[i][j].item] += rateMatrix[i][j].rate;
 				biNum[rateMatrix[i][j].item] += 1;
 			}			
 	    }
 	    
 	    for(i = 1; i < ITEM_NUM+1; ++i) {
-	    	if(biNum[i] >=1)bi[i] = bi[i]/(biNum[i]+25);
-	    	else bi[i] = 0.0;
-	    	
-	    }
-	   
-	     for(i = 1; i < USER_NUM+1; ++i){
-	    	int vSize = rateMatrix[i].size();
-			for(j=0; j < vSize; ++j) {
-				bu[i] += (rateMatrix[i][j].rate - mean - bi[rateMatrix[i][j].item]);
-				buNum[i] += 1;
-			}			
-	    }
-	    for(i = 1; i < USER_NUM+1; ++i) {
-	    	if(buNum[i]>=1)bu[i] = bu[i]/(buNum[i]+10);
-	    	else bu[i] = 0.0;
+	    	if(biNum[i] >=1)mi[i] = mi[i]/biNum[i];
+	    	else mi[i] = mean;
 	    }
 	}
 	
-	//intialize the matrix of user character(P) and the matrix of item character(Q)
-	void initialPQ(int itemNum, int userNum,int dim)
-	{
-		using namespace svd;
-		int i;
-		//@TODO 不知道是否能针对初始化的过程做一些优化
-	    //对p,q进行初始化，初始化的方法是随机函数，不知道这种方法是否好，是否会影响结果？？？？？？？
-		for(int i = 1; i < itemNum+1; ++i){
-	        setRand(q[i],dim,0);   
-	    }
-	    
-	    for(int i = 1; i < userNum+1; ++i){
-	        setRand(p[i],dim,0);   
-	    }
-	}
-	
-	void model(int dim, float  alpha1, float alpha2, float beta1, float beta2,
-				 int maxStep=60,double slowRate=1,bool isUpdateBias=true)
+	void model(const char* simFile, const char* kmaxFile)
     {
         cout << "begin initialization: " << endl;
+        loadSimMatrix(s, simFile);               //load sim matrix
+        loadKMax(kmax, kmaxFile,"	");                //load k-max
+        
         loadRating(TRAINING_SET,rateMatrix,RATE_SP);  //load training set
         loadProbe(PROBE_SET,probeRow,RATE_SP);   //load test set
+        
         mean = setMeanRating(USER_NUM,rateMatrix); //calculate the mean
+        getItemMean();         //calculate the mean of each item
         int i,u,j,k;
-        
-        srand((unsigned)time(0)); 
-        //initialBais(); //initialize bu and bi
-        
-        initialPQ(ITEM_NUM, USER_NUM,K_NUM); //intialize the matrix of user character(P) and the matrix of item character(Q) 
-        cout <<"initialization end!"<<endl<< "begin iteration: " << endl;
-        
-        float pui = 0.0 ; // 预测的u对i的打分
-        double preRmse = 1000000000000.0; //用于记录上一个rmse，作为终止条件的一种，如果rmse上升了，则停止
-        double nowRmse = 0.0;
         cout <<"begin testRMSEProbe(): " << endl;
         RMSEProbe(probeRow,K_NUM);
-        //main loop
-        for(int step = 0; step < maxStep; ++step){  //只迭代60次
-            long double rmse = 0.0;
-            int n = 0;
-            for( u = 1; u < USER_NUM+1; ++u) {   //循环处理每一个用户    
-                int RuNum = rateMatrix[u].size(); //用户u打过分的item数目
-                float sqrtRuNum = 0.0;
-                if(RuNum>1) sqrtRuNum = (1.0/sqrt(RuNum));
-                   
-                //迭代处理
-                for(i=0; i < RuNum; ++i) {// 循环处理u打分过的每一个item
-                    int itemI = rateMatrix[u][i].item;
-                    short rui = rateMatrix[u][i].rate; //实际的打分
-                    double bui = mean + bu[u] + bi[itemI];
-                    //pui = predictRate(u,itemI,mean,bu,bi,p[u],q[itemI],dim);
-                    pui = predictRate(u,itemI,dim);
-                    
-                    float eui = rui - pui;
-                    
-                    if( isnan(eui) ) {// fabs(eui) >= 4.2 || 
-                        cout<<u<<'\t'<<i<<'\t'<<pui<<'\t'<<rui<<"    "<<bu[u]<<"    "<<bi[itemI]<<"    "<<mean<<endl;
-                        //printArray(q[itemI],p[u],K_NUM+1);
-                        exit(1);
-                    }
-                    rmse += eui * eui; ++n;
-                    if(n % 10000000 == 0)cout<<"step:"<<step<<"    n:"<<n<<" dealed!"<<endl;
-                    
-                    if(isUpdateBias) {
-                    	bu[u] += alpha1 * (eui - beta1 * bu[u]);
-                    	bi[itemI] += alpha1 * (eui - beta1 * bi[itemI]);
-                    }
-                    
-                    for( k=1; k< K_NUM+1; ++k) {
-                           //double tempPu = p[u][k];
-                    	p[u][k] += alpha2 * (eui*q[itemI][k] - beta2*p[u][k]);
-                        q[itemI][k] += alpha2 * (eui*p[u][k] - beta2*q[itemI][k]);
-                    }
-                } 
-            }
-            nowRmse =  sqrt( rmse / n);
-            
-            if( nowRmse >= preRmse && step >= 3) break; //如果rmse已经开始上升了，则跳出循环
-            else
-                preRmse = nowRmse;
-            cout << step << "\t" << nowRmse <<'\t'<< preRmse<<"     n:"<<n<<endl;
-            RMSEProbe(probeRow,K_NUM);;  // check test set rmse
-            
-            alpha1 *= slowRate;    //逐步减小学习速率
-            alpha2 *= slowRate;
-        }
-        RMSEProbe(probeRow,K_NUM);  // 检查测试集情况
-        return;
+        cout <<"end testRMSEProbe(): " << endl;
+       	return;
     }
 };
 
 /**
  * predict the rate
  */
-float predictRate(int user, int item,int dim)
+float predictRate(int user, int item, int dim)
 {
-	using namespace svd;
+	using namespace knn;
+    
     int RuNum = rateMatrix[user].size(); //用户u打过分的item数目
-    double ret; 
-    if(RuNum > 1) {
-        ret = mean + bu[user] + bi[item] +  dot(p[user],q[item],dim);//这里先不对k进行变化，先取k=无穷大
+    double sumNumerator = 0.0;
+    double sumDenominator = 0.0;
+    
+    for(int p=0; p< RuNum; ++p) {
+    	int j = rateMatrix[user][p].item;
+    	int rate = rateMatrix[user][p].rate;
+    	if( s[item][j] < kmax[item]) continue; //KNN 的K就体现在这里啦
+    	else {
+    		sumDenominator += fabs(s[item][j]);
+    		sumNumerator =+ s[item][j] * ( rate - mi[j]);
+    	}
     }
-    else ret  = mean+bu[user] + bi[item];
+    float ret =0.0;
+    if(sumDenominator > 0.02) ret =  mi[item] + (sumNumerator/sumDenominator);
+    else ret =  mi[item];
     if(ret < 1.0) ret = 1;
     if(ret > 5.0) ret = 5;
     return ret;
