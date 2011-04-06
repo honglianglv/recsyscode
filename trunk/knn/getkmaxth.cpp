@@ -16,8 +16,8 @@
  * steps:
  * (0)calculate the similarity matrix and store it to the file(getSim.cpp)
  * (1)get the similarity matrix from the file.
-   (2)for every item i，use the minimal heap to get k-max similarity value
-   (3)store the k-max similarity value to file
+ * (2)for every item i，use the minimal heap to get k-max similarity value
+ * (3)store the k-max similarity value to file
  *    
  *  
  */
@@ -29,10 +29,10 @@
 #define ITEM_NUM 1682 //10K:1682 1M:3900
 
 /*
-#define TRAINING_SET "../dataset/netflix/data_without_prob.txt"
-#define RATE_SP ","  //rate Separator
-#define USER_NUM 480189 //10K:943 1M:6040
-#define ITEM_NUM 17770 //10K:1682 1M:3900
+  #define TRAINING_SET "../dataset/netflix/data_without_prob.txt"
+  #define RATE_SP ","  //rate Separator
+  #define USER_NUM 480189 //10K:943 1M:6040
+  #define ITEM_NUM 17770 //10K:1682 1M:3900
 */
 namespace knn{
     vector<float> mi(ITEM_NUM+1,0.0);         //用来存储每个item的平均打分
@@ -108,18 +108,18 @@ namespace knn{
 		if(arraySize < K)return 0.0; //if size < K, then the k-max value is 0
 		vector<float> heapTmp;
 		for(int i=0; i < array.size(); ++i)
-		{
-			heapTmp.push_back(array[i]);
-			if(i == K-1) {
-				make_heap(heapTmp.begin(),heapTmp.end(),cmp);
-			}
-			else if(i >=K) {
-				push_heap(heapTmp.begin(),heapTmp.end(),cmp);
-				pop_heap(heapTmp.begin(),heapTmp.end(),cmp);
-				heapTmp.pop_back();
-			}
-			//cout << i<<'\t'<<heapTmp.size()<<endl;
-		}
+            {
+                heapTmp.push_back(array[i]);
+                if(i == K-1) {
+                    make_heap(heapTmp.begin(),heapTmp.end(),cmp);
+                }
+                else if(i >=K) {
+                    push_heap(heapTmp.begin(),heapTmp.end(),cmp);
+                    pop_heap(heapTmp.begin(),heapTmp.end(),cmp);
+                    heapTmp.pop_back();
+                }
+                //cout << i<<'\t'<<heapTmp.size()<<endl;
+            }
 		return heapTmp.front();
 	}
 	

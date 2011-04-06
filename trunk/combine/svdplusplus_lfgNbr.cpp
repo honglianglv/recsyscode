@@ -62,7 +62,7 @@ namespace svd{
 	    	biBase[i] = bi[i];
 	    }
 	   
-	     for(i = 1; i < USER_NUM+1; ++i){
+        for(i = 1; i < USER_NUM+1; ++i){
 	    	int vSize = rateMatrix[i].size();
 			for(j=0; j < vSize; ++j) {
 				bu[i] += (rateMatrix[i][j].rate - mean - bi[rateMatrix[i][j].item]);
@@ -95,7 +95,7 @@ namespace svd{
 	}
 	
 	void model(int dim, float  alpha1, float alpha2, float alpha3, float beta1, float beta2, float beta3,
-				 int maxStep=60,double slowRate=1,bool isUpdateBias=true)
+               int maxStep=60,double slowRate=1,bool isUpdateBias=true)
     {
         cout << "begin initialization: " << endl;
         loadRating(TRAINING_SET,rateMatrix,RATE_SP);  //load training set
@@ -205,18 +205,18 @@ float predictRate(int user, int item,int dim)
     int RuNum = rateMatrix[user].size(); //the num of items which user has rated
    	float ret; 
 	if(RuNum > 1)
-	{
-		double sumEx = 0.0, sumIm = 0.0;
-		float sqrtRuNum = 1/sqrt(RuNum);
-		for(int i=0; i< RuNum; ++i) {
-			int itemI = rateMatrix[user][i].item;
-			double rate = (double)rateMatrix[user][i].rate;
-			sumEx = (rate - mean - bu[user] - bi[itemI]) * w[item][itemI];
-			sumIm = c[item][itemI];
-		}
+        {
+            double sumEx = 0.0, sumIm = 0.0;
+            float sqrtRuNum = 1/sqrt(RuNum);
+            for(int i=0; i< RuNum; ++i) {
+                int itemI = rateMatrix[user][i].item;
+                double rate = (double)rateMatrix[user][i].rate;
+                sumEx = (rate - mean - bu[user] - bi[itemI]) * w[item][itemI];
+                sumIm = c[item][itemI];
+            }
 		
-		ret = mean + bu[user] + bi[item] + dot((double*)puTemp[user],(double*)q[item],dim) + sqrtRuNum * (sumEx+sumIm);
-	}
+            ret = mean + bu[user] + bi[item] + dot((double*)puTemp[user],(double*)q[item],dim) + sqrtRuNum * (sumEx+sumIm);
+        }
 	else ret  = mean+bu[user] + bi[item];
 	if(ret < 1.0) ret = 1;
     if(ret > 5.0) ret = 5;

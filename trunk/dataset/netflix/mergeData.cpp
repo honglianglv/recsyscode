@@ -34,7 +34,7 @@ int main()
    		return 0;
     }
     int fileNum = 0;
-    std:ofstream result("data.txt");
+    ofstream result("data.txt");
     while ((dirp = readdir(dp)) != NULL) {
         if(string(dirp->d_name).length() < 3)continue;
         string fileName = DIR_PATH + string(dirp->d_name);

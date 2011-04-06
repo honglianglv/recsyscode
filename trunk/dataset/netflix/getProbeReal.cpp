@@ -64,10 +64,10 @@ void loadRating(char * dirPath, vector< vector<rateNode> >& rateMatrixLocal)
     int fileNum = 0;
     std::ifstream from (TRAINING_SET);
     if (!from.is_open())
-  	{
-    	cout << "Output operation failed!\n";
-    	exit(1);
-  	}
+        {
+            cout << "Output operation failed!\n";
+            exit(1);
+        }
     
     int itemId = 0, userId = 0, rate = 0;
     int pos1=0,pos2=0,pos3=0;
@@ -83,7 +83,7 @@ void loadRating(char * dirPath, vector< vector<rateNode> >& rateMatrixLocal)
 	    		cout<<strTemp<<"#####################"<<pos<<"####"<<strTemp.substr(0,pos).c_str()<<endl;
 	    		exit(1);
 	    	}		
-	    	 ++fileNum;	 
+            ++fileNum;	 
 	    	if(fileNum %3000 ==0) {
 	    		//malloc_stats();  
 	    		//mallinfo();
@@ -109,9 +109,9 @@ void loadRating(char * dirPath, vector< vector<rateNode> >& rateMatrixLocal)
     		rateMatrixLocal[userId].push_back(tmpNode);
     	}
     	catch (bad_alloc& ba)
-    	{
-    		cerr << "bad_alloc caught: " << ba.what() << endl;
-    	}
+            {
+                cerr << "bad_alloc caught: " << ba.what() << endl;
+            }
     }
     from.close();
    	cout<<"read file sucessfully!"<<endl;

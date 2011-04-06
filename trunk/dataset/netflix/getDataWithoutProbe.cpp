@@ -56,7 +56,7 @@ int main()
    		return 0;
     }
     int fileNum = 0;
-    std:ofstream result("data_without_prob.txt");
+ std:ofstream result("data_without_prob.txt");
     while ((dirp = readdir(dp)) != NULL) {
         if(string(dirp->d_name).length() < 3)continue;
         string fileName = DIR_PATH + string(dirp->d_name);

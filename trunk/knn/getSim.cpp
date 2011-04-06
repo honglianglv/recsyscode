@@ -15,11 +15,11 @@
  *
  * steps:
  * （1）pre-process: compute the mean rate of every item，and store in the mean array
-   （2）for every i，j，calculate the similarity between i and j
-   （3）for every i,j , find the users who rated both i and j and store in a set
-   （4）use the formula （4.12） in the page 125 fo Recommender system handbook to calculate the similarity of
-        i and j and store in file
-    note: the similarity matrix we get must be symmetrical,or there are something wrong.
+ * （2）for every i，j，calculate the similarity between i and j
+ * （3）for every i,j , find the users who rated both i and j and store in a set
+ * （4）use the formula （4.12） in the page 125 fo Recommender system handbook to calculate the similarity of
+ *  i and j and store in file
+ *  note: the similarity matrix we get must be symmetrical,or there are something wrong.
  *    
  *  if the source is movielens, then get the similarity file by knn::getSimMatrix();
  *  if the source is netflix, then get the similarity file by knn::getSimMatrix("netflix");
@@ -32,10 +32,10 @@
 #define ITEM_NUM 1682 //10K:1682 1M:3900
 
 /*
-#define TRAINING_SET "../dataset/netflix/data_without_prob.txt"
-#define RATE_SP ","  //rate Separator
-#define USER_NUM 480189 //10K:943 1M:6040
-#define ITEM_NUM 17770 //10K:1682 1M:3900
+  #define TRAINING_SET "../dataset/netflix/data_without_prob.txt"
+  #define RATE_SP ","  //rate Separator
+  #define USER_NUM 480189 //10K:943 1M:6040
+  #define ITEM_NUM 17770 //10K:1682 1M:3900
 */
 namespace knn{
     vector<float> mi(ITEM_NUM+1,0.0);         //用来存储每个item的平均打分
@@ -78,12 +78,12 @@ namespace knn{
         //output the similarity matrix
 	    ofstream outputw(source);
 	    for(i=1; i < ITEM_NUM+1; ++i)
-	    {
-	    	outputw <<i<<":"<<endl;
-	    	for(j=1; j < ITEM_NUM+1; ++j) {
-	    		outputw << j << "\t" << w[i][j]<<endl;
-	    	}
-	    }
+            {
+                outputw <<i<<":"<<endl;
+                for(j=1; j < ITEM_NUM+1; ++j) {
+                    outputw << j << "\t" << w[i][j]<<endl;
+                }
+            }
 	    outputw.close();
 	    cout<<"successfully exit!"<<endl;
     }
@@ -155,7 +155,7 @@ namespace knn{
 		    		cout<<strTemp<<"#####################"<<pos<<"####"<<strTemp.substr(0,pos).c_str()<<endl;
 		    		exit(1);
 		    	}		
-		    	 ++fileNum;	 
+                ++fileNum;	 
 		    	if(fileNum %3000 ==0) {
 		    		cout<<"read file "<<fileNum<<" sucessfully! size:"<<sizeof(rateMatrixLocal)<<endl;
 		    	}

@@ -63,7 +63,7 @@ void loadRating(char * fileName, vector< vector<rateNode> >& rateMatrixLocal, co
             rateMatrixLocal[userId].push_back(tmpNode);
         }
         catch (bad_alloc& ba){
-                cerr << "bad_alloc caught: " << ba.what() << endl;
+            cerr << "bad_alloc caught: " << ba.what() << endl;
         }
     }
     from.close();
@@ -105,7 +105,7 @@ void loadProbe(char * fileName,vector<testSetNode>& probeSet, const char* separa
     		tmpNode.rate = (short)rateValue;
     		tmpNode.user = userId;
     		probeSet.push_back(tmpNode);
-    		 ++probeNum;
+            ++probeNum;
     	}
     	catch (bad_alloc& ba) {
     		cerr << "bad_alloc caught: " << ba.what() << endl;
