@@ -44,8 +44,8 @@ int main(int argc, char ** argv)
     float beta3  = 0.015;     //according suggestion of koren SIGKDD'08
     //for(int i=0; i < 10; i++)
     {
-    //    beta = i*0.001 + 0.002;
-    //    cout << beta << endl;
+        //    beta = i*0.001 + 0.002;
+        //    cout << beta << endl;
     	//void model(int dim, float  alpha1, float alpha2, float alpha3, float beta1, float beta2, float beta3,
 		//		 int maxStep=60,double slowRate=1,bool isUpdateBias=true)
         svd::model(K_NUM,alpha1,alpha2,alpha3,beta1,beta2,beta3,60,0.9);

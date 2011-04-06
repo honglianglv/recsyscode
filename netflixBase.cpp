@@ -45,7 +45,7 @@ void loadRating(char * fileName, vector< vector<rateNode> >& rateMatrixLocal, co
 	    		cout<<strTemp<<"#####################"<<pos<<"####"<<strTemp.substr(0,pos).c_str()<<endl;
 	    		exit(1);
 	    	}		
-	    	 ++fileNum;	 
+            ++fileNum;	 
 	    	if(fileNum %3000 ==0) {
 	    		cout<<"read file "<<fileNum<<" sucessfully!"<<endl;
 	    	}
@@ -116,7 +116,7 @@ void loadProbe(char * fileName,vector<testSetNode>& probeSet, const char* separa
     		tmpNode.rate = (short)rateValue;
     		tmpNode.user = userId;
     		probeSet.push_back(tmpNode);
-    		 ++probeNum;
+            ++probeNum;
     	}
     	catch (bad_alloc& ba) {
     		cerr << "bad_alloc caught: " << ba.what() << endl;

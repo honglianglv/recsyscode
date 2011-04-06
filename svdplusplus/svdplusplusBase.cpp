@@ -52,7 +52,7 @@ namespace svd{
 	    	
 	    }
 	   
-	     for(i = 1; i < USER_NUM+1; ++i){
+        for(i = 1; i < USER_NUM+1; ++i){
 	    	int vSize = rateMatrix[i].size();
 			for(j=0; j < vSize; ++j) {
 				bu[i] += (rateMatrix[i][j].rate - mean - bi[rateMatrix[i][j].item]);
@@ -83,7 +83,7 @@ namespace svd{
 	}
 	
 	void model(int dim, float  alpha1, float alpha2, float beta1, float beta2,
-				 int maxStep=60,double slowRate=1,bool isUpdateBias=true)
+               int maxStep=60,double slowRate=1,bool isUpdateBias=true)
     {
         cout << "begin initialization: " << endl;
         loadRating(TRAINING_SET,rateMatrix,RATE_SP);  //load training set

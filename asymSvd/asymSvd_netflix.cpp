@@ -42,8 +42,8 @@ int main(int argc, char ** argv)
     float beta2  = 0.01;     //according suggestion of xlvector  
     //for(int i=0; i < 10; i++)
     {
-    //    beta = i*0.001 + 0.002;
-    //    cout << beta << endl;
+        //    beta = i*0.001 + 0.002;
+        //    cout << beta << endl;
         svd::model(K_NUM,alpha1,alpha2,beta1,beta2,60,0.9);
     }
     end = time(NULL);

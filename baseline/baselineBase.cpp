@@ -48,7 +48,7 @@ namespace svd{
 	    	
 	    }
 	   
-	     for(i = 1; i < USER_NUM+1; ++i){
+        for(i = 1; i < USER_NUM+1; ++i){
 	    	int vSize = rateMatrix[i].size();
 			for(j=0; j < vSize; ++j) {
 				bu[i] += (rateMatrix[i][j].rate - mean - bi[rateMatrix[i][j].item]);

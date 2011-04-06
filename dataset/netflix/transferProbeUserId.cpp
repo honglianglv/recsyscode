@@ -45,9 +45,9 @@ int main (void)
     		userMap[str1] = str2;
     	}
     	catch (bad_alloc& ba)
-    	{
-    		cerr << "bad_alloc caught: " << ba.what() << endl;
-    	}
+            {
+                cerr << "bad_alloc caught: " << ba.what() << endl;
+            }
     }
 	userIdFile.close(); //load userId mapÍê±Ï
 	
@@ -75,14 +75,14 @@ int main (void)
     	}		
     	//³õÊ¼»¯rateMatrix
     	try {
-    		 newUserId = userMap[userId];
-    		 out<<itemId<<","<<newUserId<<endl;
-    		 ++pNum;
+            newUserId = userMap[userId];
+            out<<itemId<<","<<newUserId<<endl;
+            ++pNum;
     	}
     	catch (bad_alloc& ba)
-    	{
-    		cerr << "bad_alloc caught: " << ba.what() << endl;
-    	}
+            {
+                cerr << "bad_alloc caught: " << ba.what() << endl;
+            }
     }
     in.close();
     out.close();
