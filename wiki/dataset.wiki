@@ -15,4 +15,4 @@
 This dataset contains 4.1 million continuous ratings (-10.00 to +10.00) of 100 jokes from 73,421 users; therefore it differentiates itself from other datasets by having a much smaller number of rateable items. 
   # yahoo music dataset，[http://kddcup.yahoo.com/datasets.php kdd_cup_dataset]
   
-  *备注：能下载的大家赶紧下载吧:-)，说不定哪天就不能下载了:-(*
+  * 备注：能下载的大家赶紧下载吧:-)，说不定哪天就不能下载了:-( *
