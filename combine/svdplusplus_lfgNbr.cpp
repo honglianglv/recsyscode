@@ -1,4 +1,4 @@
-/* This file is Copyright (C) 2011 Lv Hongliang. All Rights Reserved.
+/* Copyright (C) 2011 Lv Hongliang. All Rights Reserved.
  * please maitain the copyright information completely when you redistribute the code.
  * 
  * If there are some bugs, please contact me via email honglianglv@gmail.com or submit the bugs 
@@ -24,7 +24,7 @@ namespace svd{
 	double bu[USER_NUM+1] = {0};       // the user bias in the baseline predictor
     double bi[ITEM_NUM+1] = {0};       // the item bias in the baseline predictor
     float buBase[USER_NUM+1] = {0};
-    float biBase[ITEM_NUM+1] = {0};       //baseline预测器中的用户偏置和item偏置
+    float biBase[ITEM_NUM+1] = {0};       //stored and unchanged bias of user and item
     
     int buNum[USER_NUM+1] = {0};       //用户u打分的item总数， num of user ratings
     int biNum[ITEM_NUM+1] = {0};       //打过item i分的用户总数 num of item ratings
@@ -110,16 +110,18 @@ namespace svd{
         
         cout <<"initialization end!"<<endl<< "begin iteration: " << endl;
         float pui = 0.0 ; // 预测的u对i的打分
-        double preRmse = 1000000000000.0; //用于记录上一个rmse，作为终止条件的一种，如果rmse上升了，则停止
+        double preRmse = 1000000000000.0; //用于记录训练集上一次迭代的rmse，作为终止条件的一种，如果rmse上升了，则停止
+                                          //use to record the previous rmse of test set and make as the terminal condition
+                                          //if the rmse of test begin to increase, then break
         double nowRmse = 0.0;
         cout <<"begin testRMSEProbe(): " << endl;
         RMSEProbe(probeRow,K_NUM);
         //main loop
-        for(int step = 0; step < maxStep; ++step){  //只迭代60次
+        for(int step = 0; step < maxStep; ++step){  //only iterate maxStep times
             long double rmse = 0.0;
             int n = 0;
-            for( u = 1; u < USER_NUM+1; ++u) {   //循环处理每一个用户    
-                int RuNum = rateMatrix[u].size(); //用户u打过分的item数目
+            for( u = 1; u < USER_NUM+1; ++u) {   //process every user 
+                int RuNum = rateMatrix[u].size(); //process every item rated by user u 用户u打过分的item数目
                 float sqrtRuNum = 0.0;
                 if(RuNum>1) sqrtRuNum = (1.0/sqrt(RuNum));
                 
@@ -127,7 +129,7 @@ namespace svd{
                 //cacluate puTemp
                	for( k=1; k<K_NUM+1; ++k) {
                		double sumy = 0.0;
-               		for(i=0; i < RuNum; ++i) {// 循环处理u打分过的每一个item
+               		for(i=0; i < RuNum; ++i) {//process every item rated by user u  循环处理u打分过的每一个item
                			int itemI = rateMatrix[u][i].item;
                			sumy += y[itemI][k];
             		}
@@ -137,7 +139,7 @@ namespace svd{
                	double sumQE[K_NUM+1] = {0.0};
                    
                 //迭代处理
-                for(i=0; i < RuNum; ++i) {// 循环处理u打分过的每一个item
+                for(i=0; i < RuNum; ++i) {// process every item rated by user u  循环处理u打分过的每一个item
                     int itemI = rateMatrix[u][i].item;
                     short rui = rateMatrix[u][i].rate; //实际的打分 real rate
                     //double bui = mean + bu[u] + bi[itemI];
@@ -172,7 +174,7 @@ namespace svd{
 	               	}
                 }
                 
-                for(j=0; j < RuNum; ++j) {// 循环处理u打分过的每一个item
+                for(j=0; j < RuNum; ++j) {// process every item rated by user u  循环处理u打分过的每一个item
                		int itemJ = rateMatrix[u][j].item;
 	            	for( k=1; k< K_NUM+1; ++k) {
 	            		y[itemJ][k] += alpha2 * (sqrtRuNum * sumQE[k] - beta2*y[itemJ][k]);
@@ -181,17 +183,17 @@ namespace svd{
             }
             nowRmse =  sqrt( rmse / n);
             
-            if( nowRmse >= preRmse && step >= 3) break; //如果rmse已经开始上升了，则跳出循环
+            if( nowRmse >= preRmse && step >= 3) break; //if the rmse of test set begin to increase, then break
             else
                 preRmse = nowRmse;
             cout << step << "\t" << nowRmse <<'\t'<< preRmse<<"     n:"<<n<<endl;
             RMSEProbe(probeRow,K_NUM);;  // check test set rmse
             
-            alpha1 *= slowRate;    //逐步减小学习速率
+            alpha1 *= slowRate;    //gradually reduce the learning rate
             alpha2 *= slowRate;
             alpha3 *= slowRate;
         }
-        RMSEProbe(probeRow,K_NUM);  // 检查测试集情况
+        RMSEProbe(probeRow,K_NUM);  // check the rmse of test set
         return;
     }
 };

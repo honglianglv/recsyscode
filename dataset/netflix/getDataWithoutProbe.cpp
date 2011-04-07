@@ -32,8 +32,7 @@ int main()
 	struct dirent *dirp;
 	map<int,short> probeMatrix[USER_NUM+1];   
 	
-	//先load probe数据
-	//首先读取probe_real.txt 文件
+	//first load the file:probe_real.txt 首先读取probe_real.txt 文件
 	ifstream in("probe_real.txt");
 	int pos1,pos2;
 	string strTemp;
@@ -49,7 +48,7 @@ int main()
     	rateValue = atoi(strTemp.substr(pos2+1).c_str());
     	probeMatrix[userId][itemId] = rateValue;
     }
-	in.close(); //load userId map完毕
+	in.close(); //finish loading userId map
    
     if((dp  = opendir(DIR_PATH)) == NULL) {
         cout << "Error(" << errno << ") opening " << DIR_PATH << endl;

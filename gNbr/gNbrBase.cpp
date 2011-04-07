@@ -21,7 +21,7 @@ namespace svd{
 	double bu[USER_NUM+1] = {0};       // the user bias in the baseline predictor
     double bi[ITEM_NUM+1] = {0};       // the item bias in the baseline predictor
     float buBase[USER_NUM+1] = {0};
-    float biBase[ITEM_NUM+1] = {0};       //baseline预测器中的用户偏置和item偏置
+    float biBase[ITEM_NUM+1] = {0};       //stored and unchanged bias of user and item
     
     int buNum[USER_NUM+1] = {0};       //用户u打分的item总数， num of user ratings
     int biNum[ITEM_NUM+1] = {0};       //打过item i分的用户总数 num of item ratings
@@ -71,7 +71,7 @@ namespace svd{
 	{
 		using namespace svd;
 		int i;
-		//@TODO 不知道是否能针对初始化的过程做一些优化
+		//@TODO should do some optimization to the initialization 不知道是否能针对初始化的过程做一些优化
 		for(int i = 1; i < itemNum+1; ++i){
 	        setRand((double*)w[i],dim,0); 
 	        setRand((double*)c[i],dim,0);
@@ -93,22 +93,24 @@ namespace svd{
         initialPQ(ITEM_NUM, USER_NUM,K_NUM); //intialize the matrix of user character(P) and the matrix of item character(Q) 
         
         cout <<"initialization end!"<<endl<< "begin iteration: " << endl;
-        float pui = 0.0 ; // 预测的u对i的打分
+        float pui = 0.0 ; // the predicted rate for user u to item i 预测的u对i的打分
         double preRmse = 1000000000000.0; //用于记录上一个rmse，作为终止条件的一种，如果rmse上升了，则停止
+                                          //use to record the previous rmse of test set and make as the terminal condition
+                                          //if the rmse of test begin to increase, then break
         double nowRmse = 0.0;
         cout <<"begin testRMSEProbe(): " << endl;
         RMSEProbe(probeRow,K_NUM);
         //main loop
-        for(int step = 0; step < maxStep; ++step){  //只迭代60次
+        for(int step = 0; step < maxStep; ++step){  //only iterate maxStep times
             long double rmse = 0.0;
             int n = 0;
-            for( u = 1; u < USER_NUM+1; ++u) {   //循环处理每一个用户    
-                int RuNum = rateMatrix[u].size(); //用户u打过分的item数目
+            for( u = 1; u < USER_NUM+1; ++u) {   //process every user  循环处理每一个用户    
+                int RuNum = rateMatrix[u].size(); //process every item rated by user u 用户u打过分的item数目
                 float sqrtRuNum = 0.0;
                 if(RuNum>1) sqrtRuNum = (1.0/sqrt(RuNum));
                    
                 //迭代处理
-                for(i=0; i < RuNum; ++i) {// 循环处理u打分过的每一个item
+                for(i=0; i < RuNum; ++i) {//process every item rated by user u循环处理u打分过的每一个item
                     int itemI = rateMatrix[u][i].item;
                     short rui = rateMatrix[u][i].rate; //实际的打分 real rate
                     //double bui = mean + bu[u] + bi[itemI];

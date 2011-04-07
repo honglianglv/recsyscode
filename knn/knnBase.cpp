@@ -18,10 +18,10 @@
 namespace knn{
   	//use some global variables，s(similarity matrix) 
   	double mi[ITEM_NUM+1] = {0.0};             //store the mean rating of each item
-  	int    biNum[ITEM_NUM+1] = {0};       //打过item i分的用户总数 num of item ratings
-	float s[ITEM_NUM+1][ITEM_NUM+1] = {0};    //item-item相似矩阵 item-item similarity matrix
-	float kmax[ITEM_NUM+1] = {0};             //k-max array ,the k-max similarity of each item
-    //map<int,int> rateMatrix[ITEM_NUM+1];      //use a map array to store the sparse matrix of training-set rating 
+  	int    biNum[ITEM_NUM+1] = {0};            //the rating num of every item(打过item i分的用户总数)
+	float s[ITEM_NUM+1][ITEM_NUM+1] = {0};     //item-item similarity matrix(item-item相似矩阵)
+	float kmax[ITEM_NUM+1] = {0};              //k-max array ,the k-max similarity of each item
+    //map<int,int> rateMatrix[ITEM_NUM+1];     //use a map array to store the sparse matrix of training-set rating 
     float mean = 0.0;
     
     vector < vector<rateNode> > rateMatrix(USER_NUM+1);   //store training set
@@ -161,14 +161,14 @@ float predictRate(int user, int item, int dim)
 {
 	using namespace knn;
     
-    int RuNum = rateMatrix[user].size(); //用户u打过分的item数目
+    int RuNum = rateMatrix[user].size(); //the num of items rated by user(用户user打过分的item数目)
     double sumNumerator = 0.0;
     double sumDenominator = 0.0;
     
     for(int p=0; p< RuNum; ++p) {
     	int j = rateMatrix[user][p].item;
     	int rate = rateMatrix[user][p].rate;
-    	if( s[item][j] < kmax[item]) continue; //KNN 的K就体现在这里啦
+    	if( s[item][j] < kmax[item]) continue; //the K of the KNN is here(KNN 的K就体现在这里啦)
     	else {
     		sumDenominator += fabs(s[item][j]);
     		sumNumerator =+ s[item][j] * ( rate - mi[j]);

@@ -20,12 +20,12 @@ namespace svd{
 	double bu[USER_NUM+1] = {0};       // the user bias in the baseline predictor
     double bi[ITEM_NUM+1] = {0};       // the item bias in the baseline predictor
     
-    int buNum[USER_NUM+1] = {0};       //用户u打分的item总数， num of user ratings
-    int biNum[ITEM_NUM+1] = {0};       //打过item i分的用户总数 num of item ratings
+    int buNum[USER_NUM+1] = {0};       //ratings num of every user 用户u打分的item总数， 
+    int biNum[ITEM_NUM+1] = {0};       //rating num of every item  打过item i分的用户总数 
     
-    double p[USER_NUM+1][K_NUM+1] = {0};   //用于存储用户的属性描述p   user character Matrix
-    double q[ITEM_NUM+1][K_NUM+1] = {0};   //用于item的属性描述q       item character Matrix
-    float mean = 0;                         //全局的平均值             mean of all ratings
+    double p[USER_NUM+1][K_NUM+1] = {0};   //user character Matrix 用于存储用户的属性描述p   
+    double q[ITEM_NUM+1][K_NUM+1] = {0};   //item character Matrix 用于item的属性描述q       
+    float mean = 0;                        //mean of all ratings   全局的平均值             
     
     vector < vector<rateNode> > rateMatrix(USER_NUM+1);   //store training set
     vector<testSetNode> probeRow;                            //store test set
@@ -67,8 +67,8 @@ namespace svd{
 	{
 		using namespace svd;
 		int i;
-		//@TODO 不知道是否能针对初始化的过程做一些优化
-	    //对p,q进行初始化，初始化的方法是随机函数，不知道这种方法是否好，是否会影响结果？？？？？？？
+		//@TODO should do some optimization to the initialization
+	    //is the ramdom function a best way to initialize the p and q?
 		for(int i = 1; i < itemNum+1; ++i){
 	        setRand(q[i],dim,0);   
 	    }
@@ -93,24 +93,25 @@ namespace svd{
         initialPQ(ITEM_NUM, USER_NUM,K_NUM); //intialize the matrix of user character(P) and the matrix of item character(Q) 
         cout <<"initialization end!"<<endl<< "begin iteration: " << endl;
         
-        float pui = 0.0 ; // 预测的u对i的打分
+        float pui = 0.0 ; // the predict value of user u to item i
         double preRmse = 1000000000000.0; //用于记录上一个rmse，作为终止条件的一种，如果rmse上升了，则停止
+                                          //use to record the previous rmse of test set and make as the terminal condition
+                                          //if the rmse of test begin to increase, then break
         double nowRmse = 0.0;
         cout <<"begin testRMSEProbe(): " << endl;
         RMSEProbe(probeRow,K_NUM);
         //main loop
-        for(int step = 0; step < maxStep; ++step){  //只迭代60次
+        for(int step = 0; step < maxStep; ++step){  //only iterate maxStep times
             long double rmse = 0.0;
             int n = 0;
-            for( u = 1; u < USER_NUM+1; ++u) {   //循环处理每一个用户    
-                int RuNum = rateMatrix[u].size(); //用户u打过分的item数目
+            for( u = 1; u < USER_NUM+1; ++u) {   //process every user (循环处理每一个用户)
+                int RuNum = rateMatrix[u].size(); //the num of items rated by user(用户u打过分的item数目)
                 float sqrtRuNum = 0.0;
                 if(RuNum>1) sqrtRuNum = (1.0/sqrt(RuNum));
                    
-                //迭代处理
-                for(i=0; i < RuNum; ++i) {// 循环处理u打分过的每一个item
+                for(i=0; i < RuNum; ++i) {// process every item rated by user u(循环处理u打分过的每一个item)
                     int itemI = rateMatrix[u][i].item;
-                    short rui = rateMatrix[u][i].rate; //实际的打分
+                    short rui = rateMatrix[u][i].rate; //real rate
                     double bui = mean + bu[u] + bi[itemI];
                     //pui = predictRate(u,itemI,mean,bu,bi,p[u],q[itemI],dim);
                     pui = predictRate(u,itemI,dim);
@@ -139,16 +140,16 @@ namespace svd{
             }
             nowRmse =  sqrt( rmse / n);
             
-            if( nowRmse >= preRmse && step >= 3) break; //如果rmse已经开始上升了，则跳出循环
+            if( nowRmse >= preRmse && step >= 3) break; //if the rmse of test set begin to increase, then break
             else
                 preRmse = nowRmse;
             cout << step << "\t" << nowRmse <<'\t'<< preRmse<<"     n:"<<n<<endl;
-            RMSEProbe(probeRow,K_NUM);;  // check test set rmse
+            RMSEProbe(probeRow,K_NUM);  // check rmse of test set 
             
-            alpha1 *= slowRate;    //逐步减小学习速率
+            alpha1 *= slowRate;    //gradually reduce the learning rate(逐步减小学习速率)
             alpha2 *= slowRate;
         }
-        RMSEProbe(probeRow,K_NUM);  // 检查测试集情况
+        RMSEProbe(probeRow,K_NUM);  //  check rmse of test set 
         return;
     }
 };
@@ -159,10 +160,10 @@ namespace svd{
 float predictRate(int user, int item,int dim)
 {
 	using namespace svd;
-    int RuNum = rateMatrix[user].size(); //用户u打过分的item数目
+    int RuNum = rateMatrix[user].size(); //the num of items rated by user
     double ret; 
     if(RuNum > 1) {
-        ret = mean + bu[user] + bi[item] +  dot(p[user],q[item],dim);//这里先不对k进行变化，先取k=无穷大
+        ret = mean + bu[user] + bi[item] +  dot(p[user],q[item],dim);
     }
     else ret  = mean+bu[user] + bi[item];
     if(ret < 1.0) ret = 1;

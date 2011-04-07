@@ -38,10 +38,10 @@
   #define ITEM_NUM 17770 //10K:1682 1M:3900
 */
 namespace knn{
-    vector<float> mi(ITEM_NUM+1,0.0);         //用来存储每个item的平均打分
-    float w[ITEM_NUM+1][ITEM_NUM+1] = {0};    //item-item相似矩阵 item-item similarity matrix
-    map<int,short> rateMatrix[ITEM_NUM+1];           //使用一个map数组存储稀疏的打分矩阵                     
-	float mean = 0;                         //全局的平均值
+    vector<float> mi(ITEM_NUM+1,0.0);         //store the mean rate of every item 用来存储每个item的平均打分
+    float w[ITEM_NUM+1][ITEM_NUM+1] = {0};    //item-item similarity matrix (item-item相似矩阵)
+    map<int,short> rateMatrix[ITEM_NUM+1];    //use a map to store the sparse rate matrix(使用一个map数组存储稀疏的打分矩阵)
+	float mean = 0;                           //mean of all ratings(全局的平均值)
     
     //function declaration    
     double getSim(int item1,int item2);
@@ -51,12 +51,12 @@ namespace knn{
     void getSimMatrix(const char* source="movielens")
     {
         cout << "begin initialization: " << endl;   
-        if("movielens" == source)loadRating(TRAINING_SET,rateMatrix,RATE_SP);  //初始化，将打分数据load to rateMatrix
+        if("movielens" == source)loadRating(TRAINING_SET,rateMatrix,RATE_SP);  //initialization,load ratings to rateMatrix
         else if("netflix" == source)loadNetflixRating(TRAINING_SET,rateMatrix,RATE_SP);
         int i,u,j,k;
         
         //get the mean rate of every item
-        for(i = 1; i < ITEM_NUM+1; ++i){  //利用每一个打分调优结果
+        for(i = 1; i < ITEM_NUM+1; ++i){  
         	map <int,short> ::iterator it = rateMatrix[i].begin(); 
         	map <int,short> ::iterator end = rateMatrix[i].end();
         	while(it != end) {
@@ -67,7 +67,7 @@ namespace knn{
         	else mi[i] = 0;
         } 
         
-       	for(i = 1; i < ITEM_NUM+1; ++i){  //利用每一个打分调优结果
+       	for(i = 1; i < ITEM_NUM+1; ++i){  //get similarity for every i and j
         	for(j = i; j < ITEM_NUM+1; ++j) {
         		w[i][j] = getSim(i,j);
         		if(j != i)w[j][i] = w[i][j];
@@ -89,7 +89,7 @@ namespace knn{
     }
     
     /**
-	 * load filePath中的数据到data这个vector中和 rateMatrix中
+	 * load ratings in filePath to rateMatrix
 	 */
 	void loadRating(char * filePath, map<int,short> rateMatrixLocal[],const char* separator)
 	{
@@ -130,7 +130,8 @@ namespace knn{
 	}
 	
 	/**
-	 * load filePath中的数据到data这个vector中和 rateMatrix中
+	 * load the ratings in filePath to rateMatrix
+	 * 
 	 */
 	void loadNetflixRating(char * filePath, map<int,short> rateMatrixLocal[],const char* separator)
 	{
@@ -183,7 +184,8 @@ namespace knn{
 	}
     
     double getSim(int item1, int item2) {
-    	//(1)找到打分的公共用户集合（2）按照公式计算
+    	//(1)find the users who rated both item1 and item2(找到打分的公共用户集合) 
+    	//(2)calculate the similarity according the pearson formula(按照公式计算)
     	if(item1 == item2)return 1.0;
     	if(0 == rateMatrix[item1].size() || 0 == rateMatrix[item2].size() ) return 0.0;
     	map <int,short> ::iterator it = rateMatrix[item1].begin(); 
@@ -193,7 +195,7 @@ namespace knn{
     		int user = (*it).first;
     		if(rateMatrix[item2].find(user) != rateMatrix[item2].end()) {
     			//cout<<"common user:"<<user<<'\t'<<rateMatrix[item1][user]<<'\t'<<rateMatrix[item2][user]<<endl;
-    			//已经找到了公共元素
+    			//already find the common user(已经找到了公共元素)
     			sum1 += (rateMatrix[item1][user] - mi[item1]) *(rateMatrix[item2][user] - mi[item2]);
     			sumSquare1 += pow(rateMatrix[item1][user] - mi[item1],2); 
     			sumSquare2 += pow(rateMatrix[item2][user] - mi[item2],2);
