@@ -1,4 +1,4 @@
-/* This file is Copyright (C) 2011 Lv Hongliang. All Rights Reserved.
+/* Copyright (C) 2011 Lv Hongliang. All Rights Reserved.
  * please maitain the copyright information completely when you redistribute the code.
  * 
  * If there are some bugs, please contact me via email honglianglv@gmail.com or submit the bugs 
