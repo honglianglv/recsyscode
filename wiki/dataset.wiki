@@ -10,13 +10,9 @@
 
 ==目前可以得到的一些数据集汇总，我先抛砖英引玉，希望大家提供更多的内容：==
   # movielens 数据集，官方提供下载：[http://www.grouplens.org/node/73 movielens数据集]
-
   # netflix数据集，目前官方不再提供下载，我的博客提供下载：[http://www.lifecrunch.biz/archives/207 netflix_dataset]
-
   # Jester数据集：这个数据集提供了4.1M的连续打分数据（分数从-10.00到+10.00）。这个数据集包含了73,421个用户对100个笑话的打分，这个数据集的体征是含有很少的item。下载地址：[http://www.ieor.berkeley.edu/~goldberg/jester-data/ Jester_dataset]
-
 This dataset contains 4.1 million continuous ratings (-10.00 to +10.00) of 100 jokes from 73,421 users; therefore it differentiates itself from other datasets by having a much smaller number of rateable items. 
-
   # yahoo music dataset，[http://kddcup.yahoo.com/datasets.php kdd_cup_dataset]
   
 
