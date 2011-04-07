@@ -55,7 +55,7 @@ void loadRating(char * fileName, vector< vector<rateNode> >& rateMatrixLocal, co
             cout<<strTemp<<"#####################userId:"<<userId<<" itemId:"<<itemId<<" rate:"<<rate<<endl;
             exit(1);
         }
-        //³õÊ¼»¯rateMatrix
+        //åˆå§‹åŒ–rateMatrix
         try {
             rateNode tmpNode;
             tmpNode.item = itemId;

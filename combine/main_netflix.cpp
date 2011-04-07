@@ -1,4 +1,4 @@
-/* This file is Copyright (C) 2011 Lv Hongliang. All Rights Reserved.
+ï»¿/* This file is Copyright (C) 2011 Lv Hongliang. All Rights Reserved.
  * please maitain the copyright information completely when you redistribute the code.
  * 
  * If there are some bugs, please contact me via email honglianglv@gmail.com or submit the bugs 
@@ -11,7 +11,7 @@
  * It is free software; you can redistribute it and/or modify it under 
  * the license GPLV3.
  *
- * ±¾³ÌĞòµÄÄ¿µÄÊÇÊµÏÖkorenÔÚSIGKDD'08ÂÛÎÄÖĞµÄSVD++·½·¨, Ê¹ÓÃµÄÊı¾İÊÇnetflixµÄÊı¾İ
+ * æœ¬ç¨‹åºçš„ç›®çš„æ˜¯å®ç°korenåœ¨SIGKDD'08è®ºæ–‡ä¸­çš„SVD++æ–¹æ³•, ä½¿ç”¨çš„æ•°æ®æ˜¯netflixçš„æ•°æ®
  * The purpose of this program is to implement the asymmetric SVD method of koren's SIGKDD'08 paper,
  * using the netflix dataset.
  */
