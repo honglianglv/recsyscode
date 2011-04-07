@@ -1,4 +1,4 @@
-#the steps of using knn model in this project
+#  the steps of using knn model in this project
 
 = Introduction =
 
