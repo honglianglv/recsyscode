@@ -1,4 +1,4 @@
-/* This file is Copyright (C) 2011 Lv Hongliang. All Rights Reserved.
+/* Copyright (C) 2011 Lv Hongliang. All Rights Reserved.
  * please maitain the copyright information completely when you redistribute the code.
  * 
  * If there are some bugs, please contact me via email honglianglv@gmail.com or submit the bugs 
@@ -97,8 +97,8 @@ namespace svd{
         
         //initialize pu
         cout <<"begin compute first pu: " << endl;
-        for( u = 1; u < USER_NUM+1; ++u) {   // deal every user 
-           	int RuNum = rateMatrix[u].size(); // deal every item rated by user u
+        for( u = 1; u < USER_NUM+1; ++u) {   // process every user 
+           	int RuNum = rateMatrix[u].size(); // process every item rated by user u
            	float sqrtRuNum = 0.0;
            	if(RuNum>1) sqrtRuNum = (1.0/sqrt(RuNum));
            	

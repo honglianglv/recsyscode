@@ -35,10 +35,10 @@
   #define ITEM_NUM 17770 //10K:1682 1M:3900
 */
 namespace knn{
-    vector<float> mi(ITEM_NUM+1,0.0);         //用来存储每个item的平均打分
-    float w[ITEM_NUM+1][ITEM_NUM+1] = {0};    //item-item相似矩阵 item-item similarity matrix
-    map<int,short> rateMatrix[ITEM_NUM+1];           //使用一个map数组存储稀疏的打分矩阵                     
-	float mean = 0;                         //全局的平均值
+    vector<float> mi(ITEM_NUM+1,0.0);         //store the mean rate of every item(用来存储每个item的平均打分)
+    float w[ITEM_NUM+1][ITEM_NUM+1] = {0};    //item-item similarity matrix(item-item相似矩阵)
+    map<int,short> rateMatrix[ITEM_NUM+1];    //use a map to store the sparse rate matrix(使用一个map数组存储稀疏的打分矩阵)
+	float mean = 0;                           //mean of all ratings(全局的平均值)
     
     //function declaration    
     float getKmax(vector<float>& array, int K);
@@ -101,7 +101,8 @@ namespace knn{
 	    cout<<"successfully exit!"<<endl;
     }
     
-    //下面的这个函数用来利用最小堆找出第k大的元素
+    //下面的这个函数用来利用最小堆找出第k大的相似度
+    //get the k-max largest similarity in the array  using the minimum heap
 	float getKmax(vector<float>& array, int K)
 	{
 		int arraySize = array.size();

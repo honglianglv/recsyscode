@@ -1,4 +1,4 @@
-/* This file is Copyright (C) 2011 Lv Hongliang. All Rights Reserved.
+/* Copyright (C) 2011 Lv Hongliang. All Rights Reserved.
  * please maitain the copyright information completely when you redistribute the code.
  * 
  * If there are some bugs, please contact me via email honglianglv@gmail.com or submit the bugs 
@@ -55,7 +55,7 @@ void loadRating(char * fileName, vector< vector<rateNode> >& rateMatrixLocal, co
             cout<<strTemp<<"#####################userId:"<<userId<<" itemId:"<<itemId<<" rate:"<<rate<<endl;
             exit(1);
         }
-        //åˆå§‹åŒ–rateMatrix
+        //³õÊ¼»¯rateMatrix
         try {
             rateNode tmpNode;
             tmpNode.item = itemId;

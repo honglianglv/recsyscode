@@ -47,15 +47,15 @@ int getRate(vector<rateNode> &v, int item)
 	for(int i = 0; i < size; ++i) {
 		if(item == v[i].item)return v[i].rate;
 	}
-	cout<<"**********************error!!!can't get whate you look for!!***********"<<endl;
+	cout<<"**********************error!!!can't get what you look for!!***********"<<endl;
 	return 0;
 }
 
 
 
 /**
- * load filePath中的数据到data这个vector中和 rateMatrix中
- * 
+ * load filePath中的数据到rateMatrix中
+ * load the the ratings in TRAINING_SET to rateMatrix
  */
 void loadRating(char * dirPath, vector< vector<rateNode> >& rateMatrixLocal)
 {
@@ -123,7 +123,7 @@ vector < vector<rateNode> > rateMatrix(USER_NUM+1);
 
 int main()
 {   
-    loadRating(DIR_PATH,rateMatrix);  //初始化完成
+    loadRating(DIR_PATH,rateMatrix);  //finish loading all the data
     getProbeReal();
 }
 
@@ -131,6 +131,7 @@ int main()
 void getProbeReal()
 {
 	//首先读取probe_t.txt 文件，对于每一个rate，找出对应的实际打分
+	//first read the file probe_t.txt, for every record, find the real rate.
 	ifstream in("probe_t.txt");
 	ofstream out("probe_real.txt");
 	ofstream logNP("n_p.txt");
@@ -151,7 +152,7 @@ void getProbeReal()
     	}
     	out<<itemId<<','<<userId<<','<<rateValue<<endl;
     }
-	in.close(); //load userId map完毕
+	in.close(); 
 	out.close();
 	logNP.close();
 }

@@ -22,8 +22,6 @@
 #define ITEM_NUM 17770
 using namespace std;
 
-//执行完毕的输出Transfer sucessful! There are 16938 items and 1408395 probe ratings!
-
 int main (void)
 {
 	std::ifstream userIdFile("userIds");
@@ -40,7 +38,7 @@ int main (void)
     	str1 = atoi(strTemp.substr(0,pos1).c_str());
     	str2 = atoi(strTemp.substr(pos1+1).c_str());
     	//cout<<str1<<'\t'<<str2<<'\t'<<endl;exit(1);	
-    	//初始化rateMatrix
+    	//initialize rateMatrix
     	try {
     		userMap[str1] = str2;
     	}
@@ -49,7 +47,7 @@ int main (void)
                 cerr << "bad_alloc caught: " << ba.what() << endl;
             }
     }
-	userIdFile.close(); //load userId map完毕
+	userIdFile.close(); //finish loading userId map
 	
 	int itemId = 0;
 	int itemNum = 0;
@@ -73,7 +71,7 @@ int main (void)
     		cout<<userId<<"#####################"<<endl;
     		exit(1);
     	}		
-    	//初始化rateMatrix
+    	//initialize rateMatrix
     	try {
             newUserId = userMap[userId];
             out<<itemId<<","<<newUserId<<endl;
