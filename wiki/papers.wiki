@@ -11,7 +11,8 @@ Provide resources include books and papers related to this project.
 Resources:
   * books
     # [http://www.lifecrunch.biz/archives/194 Recommender system Handbook]
-    # [http://book.douban.com/subject/2209702/ Programming Collective Intelligence]
+    # [http://www.amazon.com/Programming-Collective-Intelligence-Building-Applications/dp/0596529325 Programming Collective Intelligence]
+    # [http://www.amazon.com/Pattern-Recognition-Learning-Information-Statistics/dp/0387310738 Pattern Recognition and Machine Learning]
   * papers
     # [http://research.yahoo.com/Yehuda_Koren koren's papers]
     # [http://recsys.acm.org/ ACM RecSys Conference]
