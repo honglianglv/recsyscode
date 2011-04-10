@@ -1,4 +1,4 @@
-#labels resources,recsys
+#labels resources,recsys,acm
 #books and papers related to this project.
 
 = Introduction =
@@ -16,7 +16,7 @@ Resources:
   * papers
     # [http://research.yahoo.com/Yehuda_Koren koren's papers]
     # [http://recsys.acm.org/ ACM RecSys Conference]
-    # [http://recsys.acm.org/2010 ACM RecSys Conference 2010]
-    # [http://recsys.acm.org/2009 ACM RecSys Conference 2009]
-
+    # [http://www.sigkdd.org/ ACM SIGKDD]
+    # [http://portal.acm.org/TKDD/ ACM TKDD]
+   
   * Some others resources,to be continued......
