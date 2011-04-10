@@ -1,0 +1,21 @@
+#labels resources,recsys
+#books and papers related to this project.
+
+= Introduction =
+
+Provide resources include books and papers related to this project.
+
+
+= Details =
+
+Resources:
+  * books
+    # [http://www.lifecrunch.biz/archives/194 Recommender system Handbook]
+    # [http://book.douban.com/subject/2209702/ Programming Collective Intelligence]
+  * papers
+    # [http://research.yahoo.com/Yehuda_Koren koren's papers]
+    # [http://recsys.acm.org/ ACM RecSys Conference]
+    # [http://recsys.acm.org/2010 ACM RecSys Conference 2010]
+    # [http://recsys.acm.org/2009 ACM RecSys Conference 2009]
+
+  * Some others resources,to be continued......
