@@ -17,4 +17,4 @@
   #amazon-meta dataset: [http://snap.stanford.edu/data/amazon-meta.html Amazon product co-purchasing network metadata]
   #yahoo提供的dataset，但是要申请，而且处理很慢，我11年4月6日提交了请求，目前还没有反馈[http://webscope.sandbox.yahoo.com/ yahoo sandbox dataset]
 
-=== 备注：能下载的大家赶紧下载吧:-)，说不定哪天就不能下载了:-( 迫切希望大家提供更多的数据集===
+=== 备注：能下载的大家赶紧下载吧:-)，说不定哪天就不能下载了:-( 迫切希望大家提供更多的数据集)===
