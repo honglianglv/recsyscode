@@ -11,19 +11,18 @@
  * It is free software; you can redistribute it and/or modify it under 
  * the license GPLV3.
  *
- * this file stat the character of the movielens dataset.
- *
+ * this file stat the character of the netflix dataset.
  */
- 
+
 #include "../commonHeader.h"
 #include "../common.cpp"
-#include "../mlBase.cpp"
-#define USER_NUM 943 //10K:943 1M:6040
-#define ITEM_NUM 1682 //10K:1682 1M:3900
-#define K_NUM  50     //dimension
-#define TRAINING_SET "../dataset/movielens/u1.test" //training set
-#define PROBE_SET "../dataset/movielens/u1.base"  //test set
-#define RATE_SP "	"  //rate Separator
+#include "../netflixBase.cpp"
+#define USER_NUM 480189  //10K:943 1M:6040
+#define ITEM_NUM 17770 //10K:1682 1M:3900
+#define K_NUM  50
+#define TRAINING_SET "../dataset/netflix/data_without_prob.txt"
+#define PROBE_SET "../dataset/netflix/probe_real.txt"
+#define RATE_SP ","  //rate Separator
 #include "./statBase.cpp"
 
 int main(int argc, char ** argv)
@@ -36,7 +35,7 @@ int main(int argc, char ** argv)
     timeStartInfo = localtime(&start);
     string timeStartStr = asctime(timeStartInfo);
   
-    stat::model("itemNum_ml","userNum_ml");	
+    stat::model("itemNum_netflix","userNum_netflix");	
     
     end = time(NULL);
     duration = (end-start);

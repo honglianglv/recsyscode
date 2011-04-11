@@ -16,6 +16,9 @@
 #ifndef COMMON_CPP_
 #define COMMON_CPP_
 
+template <class myType> 
+int partition(myType array[], int start,int end);
+
 float dot(double* p, double* qLocal,int dim)
 {
     double result = 0.0;
@@ -117,4 +120,36 @@ double RMSEProbe(vector<testSetNode>& probeSet,int dim)
     return rmse;
 }
 
+//quick sort 
+template <class myType>
+void qsort(myType array[], int start, int end)
+{
+    if(start >= end)return;
+    //cout<<"begin partition:"<<endl;
+    int q = partition(array,start,end);
+    //cout<< q<<endl;
+    qsort(array,start,q-1);
+    qsort(array,q+1,end);
+}
+
+//partition function for quick sort
+template <class myType>
+int partition(myType array[], int start,int end)
+{
+    if(start >= end) return start;
+    if(start < 0) start = 0;
+    int original  = start;
+    float tmp = array[start];
+    ++start;
+    while(1) {
+        while( start<=end && array[start] >= tmp)++start;
+        while( start<=end && array[end] < tmp)--end;
+        if(start < end) {
+        	swap(array[start],array[end]);
+        }
+        else break;
+    }
+    swap(array[start-1],array[original]);
+    return start-1;
+}
 #endif // COMMON_CPP_
