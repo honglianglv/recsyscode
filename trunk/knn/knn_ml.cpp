@@ -11,7 +11,6 @@
  * It is free software; you can redistribute it and/or modify it under 
  * the license GPLV3.
  *
- * 本程序的目的是实现koren在SIGKDD'08论文中的方法，svd model, the dataset is movielens
  * The purpose of this program is to implement the in the SVD method of koren's SIGKDD'08 paper,
  * using the movielens dataset.
  *
