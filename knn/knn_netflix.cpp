@@ -24,31 +24,22 @@
 #define TRAINING_SET "../dataset/netflix/data_without_prob.txt"
 #define PROBE_SET "../dataset/netflix/probe_real.txt"
 #define RATE_SP ","  //rate Separator
-#include "./svdBase.cpp"
+#include "./knnBase.cpp"
 
 int main(int argc, char ** argv)
 {
-    time_t start,end;
-    struct tm* startInfo;
-    struct tm* endInfo;
-    double duration;
-    start = time(NULL);
-    startInfo = localtime(&start);
-    string startStr = asctime(startInfo);
-    float alpha1 = 0.008;    //according suggestion of xlvector
-    float alpha2 = 0.008;    //according suggestion of xlvector
-    float beta1  = 0.01;     //according suggestion of xlvector
-    float beta2  = 0.01;     //according suggestion of xlvector  
-    //for(int i=0; i < 10; i++)
-    {
-        //    beta = i*0.001 + 0.002;
-        //    cout << beta << endl;
-        svd::model(K_NUM,alpha1,alpha2,beta1,beta2,60,0.9);
-    }
+	time_t start,end;
+    struct tm * timeStartInfo;
+    struct tm * timeEndInfo;
+    double duration; 
+	start = time(NULL);
+    timeStartInfo = localtime(&start);
+    string timeStartStr = asctime(timeStartInfo);
+ 	knn::model("netflix", "netflix_kmax");
     end = time(NULL);
-    duration = end-start;
-    endInfo =   localtime(&end);
-    cout << "start at" << startStr << ". And end at "<< asctime(endInfo) <<endl;
+    duration = (end-start);
+    timeEndInfo = localtime(&end);
+    cout << "Start at "<<timeStartStr<<", and end at "<< asctime(timeEndInfo);
     cout << "duration:"<<duration <<" s!" <<endl;
     return 0;
 }
