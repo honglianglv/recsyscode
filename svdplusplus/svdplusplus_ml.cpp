@@ -30,11 +30,11 @@
 
 int main(int argc, char ** argv)
 {
-	time_t start,end;
+    time_t start,end;
     struct tm * timeStartInfo;
     struct tm * timeEndInfo;
     double duration; 
-	start = time(NULL);
+    start = time(NULL);
     timeStartInfo = localtime(&start);
     string timeStartStr = asctime(timeStartInfo);
     float alpha1 = 0.01;  //0.0045according to the paper of "a guide to SVD for CF"
@@ -49,7 +49,7 @@ int main(int argc, char ** argv)
     	//cout << alpha << endl;
     	//void model(int dim, float  alpha1, float alpha2, float beta1, float beta2,
 		//		 int maxStep=60,double slowRate=1,bool isUpdateBias=true)
-    	svd::model(K_NUM,alpha1,alpha2,beta1,beta2,60,1,false);	
+        svd::model(K_NUM,alpha1,alpha2,beta1,beta2,60,1,false);	
     }
     end = time(NULL);
     duration = (end-start);
