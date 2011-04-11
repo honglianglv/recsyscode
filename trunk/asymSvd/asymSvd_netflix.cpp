@@ -11,7 +11,6 @@
  * It is free software; you can redistribute it and/or modify it under 
  * the license GPLV3.
  *
- *  本程序的目的是实现koren在SIGKDD'08论文中的SVD++方法, 使用的数据是netflix的数据
  *
  * The purpose of this program is to implement the asymmetric SVD method of koren's SIGKDD'08 paper,
  * using the netflix dataset.
