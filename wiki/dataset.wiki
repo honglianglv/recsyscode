@@ -13,6 +13,8 @@
   # netflix数据集，目前官方不再提供下载，我的博客提供下载：[http://www.lifecrunch.biz/archives/207 netflix_dataset]
   # Jester数据集：这个数据集提供了4.1M的连续打分数据（分数从-10.00到+10.00）。这个数据集包含了73,421个用户对100个笑话的打分，这个数据集的特征是含有很少的item。下载地址：[http://www.ieor.berkeley.edu/~goldberg/jester-data/ Jester_dataset] This dataset contains 4.1 million continuous ratings (-10.00 to +10.00) of 100 jokes from 73,421 users; therefore it differentiates itself from other datasets by having a much smaller number of rateable items. 
   # yahoo music dataset，[http://kddcup.yahoo.com/datasets.php kdd_cup_dataset]
+(1)track1:每个item至少有20个打分，每个user至少有10个打分
+(2)track2:每个item至少有20个打分，每个user至少有17个打分
   #UCI Machine Learning Repository:[http://archive.ics.uci.edu/ml/datasets.html UCI datasets]
   #amazon-meta dataset: [http://snap.stanford.edu/data/amazon-meta.html Amazon product co-purchasing network metadata]
   #yahoo提供的dataset，但是要申请，而且处理很慢，我11年4月6日提交了请求，目前还没有反馈[http://webscope.sandbox.yahoo.com/ yahoo sandbox dataset]
