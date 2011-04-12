@@ -33,6 +33,10 @@ the steps to quick start
      -baseline(baseline model, 内容从svd类推）
      -combine(asymSvd+svdplusplus,内容从svd类推)
      -knn(情况稍有不同，稍后详细介绍)
+     -stat-|
+           -statBase.cpp(统计数据集宏观信息，目前仅仅统计item和user打分数量)
+           -stat_ml.cpp(统计movielens数据集的宏观信息)
+           -stat_netflix.cpp(统计netflix数据集宏观信息)
 
 }}}
   * 获得测试数据
