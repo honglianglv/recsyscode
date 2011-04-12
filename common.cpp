@@ -29,12 +29,12 @@ float dot(double* p, double* qLocal,int dim)
 }
  
 /*
- *	this function is the same as function "explode()" in php
+ *    this function is the same as function "explode()" in php
  */
 
 void explode(const char * probe,  string dataStr ,vector<string> &result)
 {
-	result.clear();  //initial the vector
+    result.clear();  //initial the vector
     int pos1 = 0;
     int pos2 = 0;
     int probeLength = strlen(probe);
@@ -111,7 +111,7 @@ double RMSEProbe(vector<testSetNode>& probeSet,int dim)
     
     for(int i = 0; i < probeSize; ++i) {
         pRate = predictRate(probeSet[i].user,probeSet[i].item,dim);      //predict rate
-        //cout<<pRate<<"	"<<probeSet[i].rate<<"	"<<probeSet[i].user<<"	"<<probeSet[i].item<<endl;
+        //cout<<pRate<<"    "<<probeSet[i].rate<<"    "<<probeSet[i].user<<"    "<<probeSet[i].item<<endl;
         err = pRate-probeSet[i].rate;
         rmse += err*err;
     }
@@ -145,7 +145,7 @@ int partition(myType array[], int start,int end)
         while( start<=end && array[start] >= tmp)++start;
         while( start<=end && array[end] < tmp)--end;
         if(start < end) {
-        	swap(array[start],array[end]);
+            swap(array[start],array[end]);
         }
         else break;
     }

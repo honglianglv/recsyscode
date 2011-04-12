@@ -1,24 +1,24 @@
 ﻿/* Copyright (C) 2011 Lv Hongliang. All Rights Reserved.
- * please maitain the copyright information completely when you redistribute the code.
- * 
- * If there are some bugs, please contact me via email honglianglv@gmail.com or submit the bugs 
- * in the google code project http://code.google.com/p/recsyscode/issues/list
- * 
- * my blog: http://lifecrunch.biz
- * my twitter: http://twitter.com/honglianglv
- * my google profile:https://profiles.google.com/honglianglv/about?hl=en
- *
- * It is free software; you can redistribute it and/or modify it under 
- * the license GPLV3.
- *
- * baselineBase.cpp contains some common functions of baseline model.
- * the algorithm is descripted in the page 148 of Recommender system Handbook.
- */
+  * please maitain the copyright information completely when you redistribute the code.
+  * 
+  * If there are some bugs, please contact me via email honglianglv@gmail.com or submit the bugs 
+  * in the google code project http://code.google.com/p/recsyscode/issues/list
+  * 
+  * my blog: http://lifecrunch.biz
+  * my twitter: http://twitter.com/honglianglv
+  * my google profile:https://profiles.google.com/honglianglv/about?hl=en
+  *
+  * It is free software; you can redistribute it and/or modify it under 
+  * the license GPLV3.
+  *
+  * baselineBase.cpp contains some common functions of baseline model.
+  * the algorithm is descripted in the page 148 of Recommender system Handbook.
+  */
 #ifndef BSAE_BASELINEBASE_CPP_
 #define BSAE_BASELINEBASE_CPP_
 namespace svd{
-  	//use some global variables，store the parameter bu, bi, p, q
-	double bu[USER_NUM+1] = {0};       // the user bias in the baseline predictor
+    //use some global variables，store the parameter bu, bi, p, q
+    double bu[USER_NUM+1] = {0};       // the user bias in the baseline predictor
     double bi[ITEM_NUM+1] = {0};       // the item bias in the baseline predictor
     
     int buNum[USER_NUM+1] = {0};       //用户u打分的item总数， num of every user ratings
@@ -29,39 +29,39 @@ namespace svd{
     vector < vector<rateNode> > rateMatrix(USER_NUM+1);   //store training set
     vector<testSetNode> probeRow;                            //store test set
     
-	//initialize the bias bu and bi, the method in the page 2 of koren's TKDD'09 paper
-	void initialBais()
-	{
-		using namespace svd;
-	    int i,j;
-	    for(i = 1; i < USER_NUM+1; ++i){
-	    	int vSize = rateMatrix[i].size();
-			for(j=0; j < vSize; ++j) {
-				bi[rateMatrix[i][j].item] += (rateMatrix[i][j].rate - mean);
-				biNum[rateMatrix[i][j].item] += 1;
-			}			
-	    }
-	    
-	    for(i = 1; i < ITEM_NUM+1; ++i) {
-	    	if(biNum[i] >=1)bi[i] = bi[i]/(biNum[i]+25);
-	    	else bi[i] = 0.0;
-	    	
-	    }
-	   
+    //initialize the bias bu and bi, the method in the page 2 of koren's TKDD'09 paper
+    void initialBais()
+    {
+        using namespace svd;
+        int i,j;
         for(i = 1; i < USER_NUM+1; ++i){
-	    	int vSize = rateMatrix[i].size();
-			for(j=0; j < vSize; ++j) {
-				bu[i] += (rateMatrix[i][j].rate - mean - bi[rateMatrix[i][j].item]);
-				buNum[i] += 1;
-			}			
-	    }
-	    for(i = 1; i < USER_NUM+1; ++i) {
-	    	if(buNum[i]>=1)bu[i] = bu[i]/(buNum[i]+10);
-	    	else bu[i] = 0.0;
-	    }
-	}
-	
-	void model(int dim, float alpha, float beta, int maxStep=60, double slowRate=1,bool isUpdateBias=true)
+            int vSize = rateMatrix[i].size();
+            for(j=0; j < vSize; ++j) {
+                bi[rateMatrix[i][j].item] += (rateMatrix[i][j].rate - mean);
+                biNum[rateMatrix[i][j].item] += 1;
+            }            
+        }
+        
+        for(i = 1; i < ITEM_NUM+1; ++i) {
+            if(biNum[i] >=1)bi[i] = bi[i]/(biNum[i]+25);
+            else bi[i] = 0.0;
+            
+        }
+       
+        for(i = 1; i < USER_NUM+1; ++i){
+            int vSize = rateMatrix[i].size();
+            for(j=0; j < vSize; ++j) {
+                bu[i] += (rateMatrix[i][j].rate - mean - bi[rateMatrix[i][j].item]);
+                buNum[i] += 1;
+            }            
+        }
+        for(i = 1; i < USER_NUM+1; ++i) {
+            if(buNum[i]>=1)bu[i] = bu[i]/(buNum[i]+10);
+            else bu[i] = 0.0;
+        }
+    }
+    
+    void model(int dim, float alpha, float beta, int maxStep=60, double slowRate=1,bool isUpdateBias=true)
     {
         cout << "begin initialization: " << endl;
         loadRating(TRAINING_SET,rateMatrix,RATE_SP);  //load training set
@@ -104,8 +104,8 @@ namespace svd{
                     if(n % 10000000 == 0)cout<<"step:"<<step<<"    n:"<<n<<" dealed!"<<endl;
                     
                     if(isUpdateBias) {
-                    	bu[u] += alpha * (eui - beta * bu[u]);
-                    	bi[itemI] += alpha * (eui - beta * bi[itemI]);
+                        bu[u] += alpha * (eui - beta * bu[u]);
+                        bi[itemI] += alpha * (eui - beta * bi[itemI]);
                     }
                 } 
             }
@@ -129,7 +129,7 @@ namespace svd{
  */
 float predictRate(int user, int item,int dim)
 {
-	using namespace svd;
+    using namespace svd;
     double ret  = mean+bu[user] + bi[item];
     if(ret < 1.0) ret = 1;
     if(ret > 5.0) ret = 5;

@@ -17,8 +17,8 @@
 #ifndef ASYMSVD_ASYMSVDBASE_CPP_
 #define ASYMSVD_ASYMSVDBASE_CPP_
 namespace svd{
-  	//use some global variables, store the parameter bu, bi, p, q,y
-	double bu[USER_NUM+1] = {0};       // the user bias in the baseline predictor
+    //use some global variables, store the parameter bu, bi, p, q,y
+    double bu[USER_NUM+1] = {0};       // the user bias in the baseline predictor
     double bi[ITEM_NUM+1] = {0};       // the item bias in the baseline predictor
     float buBase[USER_NUM+1] = {0};
     float biBase[ITEM_NUM+1] = {0};       //stored and unchanged bias of user and item
@@ -35,53 +35,53 @@ namespace svd{
     vector < vector<rateNode> > rateMatrix(USER_NUM+1);   //store training set
     vector<testSetNode> probeRow;                            //store test set
     
-	//initialize the bias bu and bi, the method in the page 2 of koren's TKDD'09 paper
-	void initialBais()
-	{
-		using namespace svd;
-	    int i,j;
-	    for(i = 1; i < USER_NUM+1; ++i){
-	    	int vSize = rateMatrix[i].size();
-			for(j=0; j < vSize; ++j) {
-				bi[rateMatrix[i][j].item] += (rateMatrix[i][j].rate - mean);
-				biNum[rateMatrix[i][j].item] += 1;
-			}			
-	    }
-	    
-	    for(i = 1; i < ITEM_NUM+1; ++i) {
-	    	if(biNum[i] >=1)bi[i] = bi[i]/(biNum[i]+25);
-	    	else bi[i] = 0.0;
-	    	biBase[i] = bi[i];
-	    }
-	   
+    //initialize the bias bu and bi, the method in the page 2 of koren's TKDD'09 paper
+    void initialBais()
+    {
+        using namespace svd;
+        int i,j;
         for(i = 1; i < USER_NUM+1; ++i){
-	    	int vSize = rateMatrix[i].size();
-			for(j=0; j < vSize; ++j) {
-				bu[i] += (rateMatrix[i][j].rate - mean - bi[rateMatrix[i][j].item]);
-				buNum[i] += 1;
-			}			
-	    }
-	    for(i = 1; i < USER_NUM+1; ++i) {
-	    	if(buNum[i]>=1)bu[i] = bu[i]/(buNum[i]+10);
-	    	else bu[i] = 0.0;
-	    	buBase[i] = bu[i];
-	    }
-	}
-	
-	//intialize the matrix of explicit character(X), the matrix of item character(Q) and implicit matrix Y
-	void initialPQ(int itemNum, int userNum,int dim)
-	{
-		using namespace svd;
-		int i;
-		//@TODO should do some optimization to the initialization
-		for(int i = 1; i < itemNum+1; ++i){
-	        setRand(x[i],dim,0); 
-	        setRand(q[i],dim,0);
-	        setRand(y[i],dim,0); 
-	    }
-	}
-	
-	void model(int dim, float  alpha1, float alpha2, float beta1, float beta2,
+            int vSize = rateMatrix[i].size();
+            for(j=0; j < vSize; ++j) {
+                bi[rateMatrix[i][j].item] += (rateMatrix[i][j].rate - mean);
+                biNum[rateMatrix[i][j].item] += 1;
+            }            
+        }
+        
+        for(i = 1; i < ITEM_NUM+1; ++i) {
+            if(biNum[i] >=1)bi[i] = bi[i]/(biNum[i]+25);
+            else bi[i] = 0.0;
+            biBase[i] = bi[i];
+        }
+       
+        for(i = 1; i < USER_NUM+1; ++i){
+            int vSize = rateMatrix[i].size();
+            for(j=0; j < vSize; ++j) {
+                bu[i] += (rateMatrix[i][j].rate - mean - bi[rateMatrix[i][j].item]);
+                buNum[i] += 1;
+            }            
+        }
+        for(i = 1; i < USER_NUM+1; ++i) {
+            if(buNum[i]>=1)bu[i] = bu[i]/(buNum[i]+10);
+            else bu[i] = 0.0;
+            buBase[i] = bu[i];
+        }
+    }
+    
+    //intialize the matrix of explicit character(X), the matrix of item character(Q) and implicit matrix Y
+    void initialPQ(int itemNum, int userNum,int dim)
+    {
+        using namespace svd;
+        int i;
+        //@TODO should do some optimization to the initialization
+        for(int i = 1; i < itemNum+1; ++i){
+            setRand(x[i],dim,0); 
+            setRand(q[i],dim,0);
+            setRand(y[i],dim,0); 
+        }
+    }
+    
+    void model(int dim, float  alpha1, float alpha2, float beta1, float beta2,
                int maxStep=60,double slowRate=1,bool isUpdateBias=true)
     {
         cout << "begin initialization: " << endl;
@@ -98,24 +98,24 @@ namespace svd{
         //initialize pu
         cout <<"begin compute first pu: " << endl;
         for( u = 1; u < USER_NUM+1; ++u) {   // process every user 
-           	int RuNum = rateMatrix[u].size(); // process every item rated by user u
-           	float sqrtRuNum = 0.0;
-           	if(RuNum>1) sqrtRuNum = (1.0/sqrt(RuNum));
-           	
-           	//calculate pu
-           	for( k=1; k< K_NUM+1; ++k) {
-           		float sumx = 0.0;
-           		float sumy = 0.0;
-           		
-           		for(j=0; j < RuNum; ++j) {
-           			int itemI = rateMatrix[u][j].item;
-           			short rui =  rateMatrix[u][j].rate;
-           			float bui = mean + buBase[u] + biBase[itemI];
-           			sumx += (rui-bui) * x[itemI][k];
-           			sumy += y[itemI][k];
-           		}
-           		pu[u][k] = sqrtRuNum*(sumx + sumy);
-           	}
+            int RuNum = rateMatrix[u].size(); // process every item rated by user u
+            float sqrtRuNum = 0.0;
+            if(RuNum>1) sqrtRuNum = (1.0/sqrt(RuNum));
+               
+            //calculate pu
+            for( k=1; k< K_NUM+1; ++k) {
+                float sumx = 0.0;
+                float sumy = 0.0;
+                   
+                for(j=0; j < RuNum; ++j) {
+                    int itemI = rateMatrix[u][j].item;
+                    short rui =  rateMatrix[u][j].rate;
+                    float bui = mean + buBase[u] + biBase[itemI];
+                    sumx += (rui-bui) * x[itemI][k];
+                    sumy += y[itemI][k];
+                }
+                pu[u][k] = sqrtRuNum*(sumx + sumy);
+            }
         }
         cout <<"end compute first pu! " << endl;
         
@@ -137,20 +137,20 @@ namespace svd{
                 
                 
                 //calculate pu
-               	for( k=1; k< K_NUM+1; ++k) {
-               		float sumx = 0.0;
-               		float sumy = 0.0;
-               		
-               		for(j=0; j < RuNum; ++j) {
-               			int itemI = rateMatrix[u][j].item;
-               			short rui =  rateMatrix[u][j].rate;
-               			float bui = mean + buBase[u] + biBase[itemI];
-               			sumx += (rui-bui) * x[itemI][k];
-               			sumy += y[itemI][k];
-               		}
-               		pu[u][k] = sqrtRuNum*(sumx + sumy);
-               	}
-               	
+                for( k=1; k< K_NUM+1; ++k) {
+                    float sumx = 0.0;
+                    float sumy = 0.0;
+                       
+                    for(j=0; j < RuNum; ++j) {
+                        int itemI = rateMatrix[u][j].item;
+                        short rui =  rateMatrix[u][j].rate;
+                        float bui = mean + buBase[u] + biBase[itemI];
+                        sumx += (rui-bui) * x[itemI][k];
+                        sumy += y[itemI][k];
+                    }
+                    pu[u][k] = sqrtRuNum*(sumx + sumy);
+                }
+                   
                 float sum[K_NUM+1] = {0};   //store the intermedia variables
                    
                 for(i=0; i < RuNum; ++i) {// process every item rated by user u
@@ -170,28 +170,28 @@ namespace svd{
                     if(n % 10000000 == 0)cout<<"step:"<<step<<"    n:"<<n<<" dealed!"<<endl;
                     
                     if(isUpdateBias) {
-                    	bu[u] += alpha1 * (eui - beta1 * bu[u]);
-                    	bi[itemI] += alpha1 * (eui - beta1 * bi[itemI]);
+                        bu[u] += alpha1 * (eui - beta1 * bu[u]);
+                        bi[itemI] += alpha1 * (eui - beta1 * bi[itemI]);
                     }
                     
                     for( k=1; k< K_NUM+1; ++k) {
-	               		sum[k] = sum[k]+ eui*q[itemI][k];
-	               		q[itemI][k] += alpha2 * (eui*pu[u][k] - beta2*q[itemI][k]);
-	               	}
+                        sum[k] = sum[k]+ eui*q[itemI][k];
+                        q[itemI][k] += alpha2 * (eui*pu[u][k] - beta2*q[itemI][k]);
+                    }
                 }
                 
                 for(i=0; i < RuNum; ++i) {//
-	                int itemI = rateMatrix[u][i].item;
-                	short rui = rateMatrix[u][i].rate; //real rate
-	               	for( k=1; k< K_NUM+1; ++k) {
-	               		
-						x[itemI][k] += alpha2 * (sqrtRuNum*sum[k]*(rui-mean-buBase[u]-biBase[itemI]) - beta2*x[itemI][k]);
-	               		y[itemI][k] += alpha2 * (sqrtRuNum*sum[k] - beta2*y[itemI][k]);
-						/*
+                    int itemI = rateMatrix[u][i].item;
+                    short rui = rateMatrix[u][i].rate; //real rate
+                    for( k=1; k< K_NUM+1; ++k) {
+                           
+                        x[itemI][k] += alpha2 * (sqrtRuNum*sum[k]*(rui-mean-buBase[u]-biBase[itemI]) - beta2*x[itemI][k]);
+                        y[itemI][k] += alpha2 * (sqrtRuNum*sum[k] - beta2*y[itemI][k]);
+                        /*
                           x[itemI][k] += alpha * (eui*sqrtRuNum*q[itemI][k]*(rui-bui) - beta*x[itemI][k]);
                           y[itemI][k] += alpha * (eui*sqrtRuNum*q[itemI][k] - beta*y[itemI][k]);
-						*/
-	               	}
+                        */
+                    }
                 } 
             }
             nowRmse =  sqrt( rmse / n);
@@ -215,7 +215,7 @@ namespace svd{
  */
 float predictRate(int user, int item,int dim)
 {
-	using namespace svd;
+    using namespace svd;
     int RuNum = rateMatrix[user].size(); //the num of items rated by user
     double ret; 
     if(RuNum >= 1) {

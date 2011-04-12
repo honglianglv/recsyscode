@@ -27,15 +27,15 @@
 
 int main(int argc, char ** argv)
 {
-	time_t start,end;
+    time_t start,end;
     struct tm * timeStartInfo;
     struct tm * timeEndInfo;
     double duration; 
-	start = time(NULL);
+    start = time(NULL);
     timeStartInfo = localtime(&start);
     string timeStartStr = asctime(timeStartInfo);
   
-    stat::model("itemNum_netflix","userNum_netflix");	
+    stat::model("itemNum_netflix","userNum_netflix");    
     
     end = time(NULL);
     duration = (end-start);

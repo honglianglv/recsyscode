@@ -25,7 +25,7 @@
 #define K_NUM  50     //dimension
 #define TRAINING_SET "../dataset/movielens/u1.test" //training set
 #define PROBE_SET "../dataset/movielens/u1.base"  //test set
-#define RATE_SP ""  //rate Separator
+#define RATE_SP "	"  //rate Separator
 #include "./svdBase.cpp"
 
 int main(int argc, char ** argv)
