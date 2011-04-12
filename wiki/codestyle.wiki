@@ -12,6 +12,6 @@ Some basic principles, continued to increase...
   * use the google code style as the basic style [http://code.google.com/p/google-styleguide/ English version],[http://code.google.com/p/zh-google-styleguide/ Chinese version]
   * the encode of the source files must be utf-8
   * all the comments in the source file should be written in English, you can also add some other languages while keeping the English commens(may be it is not good?)
-  * all with use spaces to indent and not use tab
+  * always with use spaces to indent and not use tab
 
 =Please give your suggestions below ,thanks!=
