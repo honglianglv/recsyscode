@@ -31,26 +31,26 @@
 
 int main(int argc, char ** argv)
 {
-	time_t start,end;
+    time_t start,end;
     struct tm * timeStartInfo;
     struct tm * timeEndInfo;
     double duration; 
-	start = time(NULL);
+    start = time(NULL);
     timeStartInfo = localtime(&start);
     string timeStartStr = asctime(timeStartInfo);
     float alpha1 = 0.01;  //0.0045according to the paper of "a guide to SVD for CF"
     float alpha2 = 0.01;  //0.0045according to the paper of "a guide to SVD for CF"
     float beta1 = 0.05;   //0.015 according to the paper of "a guide to SVD for CF"
     float beta2 = 0.05;   //according my own experiment,beta=0.05 is very good ,the RMSE of movielens(1M) test 
-    					  //can reach 0.868692  at step=44
+                          //can reach 0.868692  at step=44
     
     //for(int i=0; i < 10; i++)
     {
-    	//alpha = i*0.0005 + 0.0025;
-    	//cout << alpha << endl;
-    	//void model(int dim, float  alpha1, float alpha2, float beta1, float beta2,
-		//		 int maxStep=60,double slowRate=1,bool isUpdateBias=true)
-    	svd::model(K_NUM,alpha1,alpha2,beta1,beta2,60,1,false);	
+        //alpha = i*0.0005 + 0.0025;
+        //cout << alpha << endl;
+        //void model(int dim, float  alpha1, float alpha2, float beta1, float beta2,
+        //         int maxStep=60,double slowRate=1,bool isUpdateBias=true)
+        svd::model(K_NUM,alpha1,alpha2,beta1,beta2,60,1,false);    
     }
     end = time(NULL);
     duration = (end-start);

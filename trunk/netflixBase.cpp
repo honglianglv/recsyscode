@@ -31,54 +31,54 @@ void loadRating(char * fileName, vector< vector<rateNode> >& rateMatrixLocal, co
     int fileNum = 0;
     std::ifstream from (fileName);
     if (!from.is_open()) {
-    	cout << "can't open  operation failed!\n";
-    	exit(1);
-  	}
+        cout << "can't open  operation failed!\n";
+        exit(1);
+    }
     
     int itemId = 0, userId = 0, rate = 0;
     while(from.getline(rateStr,256)){
-    	string strTemp(rateStr);
-		int pos = strTemp.find(":");
-	    if(-1 != pos) {
-	    	itemId = atoi(strTemp.substr(0,pos).c_str());
-	    	if(0 == itemId ) {
-	    		cout<<strTemp<<"#####################"<<pos<<"####"<<strTemp.substr(0,pos).c_str()<<endl;
-	    		exit(1);
-	    	}		
-            ++fileNum;	 
-	    	if(fileNum %3000 ==0) {
-	    		cout<<"read file "<<fileNum<<" sucessfully!"<<endl;
-	    	}
-	    	continue;
-	    }
-    	if(strTemp.length() < 3)continue;
-    	int i = 0;
-    	pch = strtok (rateStr,separator);
-	    while (pch != NULL) {
-	        if(0 == i) userId = atoi(pch);
-	        else if(1 == i) rate = atoi(pch);
-	        else if(i > 1) break;
-	        ++i;
-	        pch = strtok (NULL,separator);
-	  	}
-    	if(0 == itemId || 0 == userId ||  0 == rate) {
-    		cout<<strTemp<<"#####################"<<endl;
-    		exit(1);
-    	}		
-    	//initialization rateMatrix
-    	try {
-    		rateNode tmpNode;
-    		tmpNode.item = itemId;
-    		tmpNode.rate = (short)rate;
-    		rateMatrixLocal[userId].push_back(tmpNode);
-    	}
-    	catch (bad_alloc& ba) {
-    		cerr << "bad_alloc caught: " << ba.what() << endl;
-    		cout << "Can't allocate the momery!" << endl; exit(1);
-    	}
+        string strTemp(rateStr);
+        int pos = strTemp.find(":");
+        if(-1 != pos) {
+            itemId = atoi(strTemp.substr(0,pos).c_str());
+            if(0 == itemId ) {
+                cout<<strTemp<<"#####################"<<pos<<"####"<<strTemp.substr(0,pos).c_str()<<endl;
+                exit(1);
+            }        
+            ++fileNum;     
+            if(fileNum %3000 ==0) {
+                cout<<"read file "<<fileNum<<" sucessfully!"<<endl;
+            }
+            continue;
+        }
+        if(strTemp.length() < 3)continue;
+        int i = 0;
+        pch = strtok (rateStr,separator);
+        while (pch != NULL) {
+            if(0 == i) userId = atoi(pch);
+            else if(1 == i) rate = atoi(pch);
+            else if(i > 1) break;
+            ++i;
+            pch = strtok (NULL,separator);
+        }
+        if(0 == itemId || 0 == userId ||  0 == rate) {
+            cout<<strTemp<<"#####################"<<endl;
+            exit(1);
+        }        
+        //initialization rateMatrix
+        try {
+            rateNode tmpNode;
+            tmpNode.item = itemId;
+            tmpNode.rate = (short)rate;
+            rateMatrixLocal[userId].push_back(tmpNode);
+        }
+        catch (bad_alloc& ba) {
+            cerr << "bad_alloc caught: " << ba.what() << endl;
+            cout << "Can't allocate the momery!" << endl; exit(1);
+        }
     }
     from.close();
-   	cout<<"read file sucessfully!"<<endl;
+       cout<<"read file sucessfully!"<<endl;
     return;
 }
 
@@ -102,26 +102,26 @@ void loadProbe(char * fileName,vector<testSetNode>& probeSet, const char* separa
         if(strTemp.length() < 4) continue;
         int i = 0;
         pch = strtok (rateStr,separator);
-	    while (pch != NULL) {
-	        if(0 == i) itemId = atoi(pch);
-	        else if(1 == i) userId = atoi(pch);
-	        else if(2 == i) rateValue = atoi(pch);
-	        else if(i > 2) break;
-	        ++i;
-	        pch = strtok (NULL,separator);
-	  	}
-	  	try {
-    		testSetNode tmpNode;
-    		tmpNode.item = itemId;
-    		tmpNode.rate = (short)rateValue;
-    		tmpNode.user = userId;
-    		probeSet.push_back(tmpNode);
+        while (pch != NULL) {
+            if(0 == i) itemId = atoi(pch);
+            else if(1 == i) userId = atoi(pch);
+            else if(2 == i) rateValue = atoi(pch);
+            else if(i > 2) break;
+            ++i;
+            pch = strtok (NULL,separator);
+        }
+        try {
+            testSetNode tmpNode;
+            tmpNode.item = itemId;
+            tmpNode.rate = (short)rateValue;
+            tmpNode.user = userId;
+            probeSet.push_back(tmpNode);
             ++probeNum;
-    	}
-    	catch (bad_alloc& ba) {
-    		cerr << "bad_alloc caught: " << ba.what() << endl;
-    		cout << "Can't allocate the momery!" << endl; exit(1);
-    	}
+        }
+        catch (bad_alloc& ba) {
+            cerr << "bad_alloc caught: " << ba.what() << endl;
+            cout << "Can't allocate the momery!" << endl; exit(1);
+        }
     }
     cout << "Load " << probeNum << " test ratings successfully!"<<endl;
     in.close(); 

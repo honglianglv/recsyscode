@@ -38,17 +38,17 @@ using namespace std;
 void getProbeReal();
 struct rateNode
 {
-	short item;
-	short rate;
+    short item;
+    short rate;
 };
 int getRate(vector<rateNode> &v, int item)
 {
-	int size = v.size();
-	for(int i = 0; i < size; ++i) {
-		if(item == v[i].item)return v[i].rate;
-	}
-	cout<<"**********************error!!!can't get what you look for!!***********"<<endl;
-	return 0;
+    int size = v.size();
+    for(int i = 0; i < size; ++i) {
+        if(item == v[i].item)return v[i].rate;
+    }
+    cout<<"**********************error!!!can't get what you look for!!***********"<<endl;
+    return 0;
 }
 
 
@@ -75,46 +75,46 @@ void loadRating(char * dirPath, vector< vector<rateNode> >& rateMatrixLocal)
     int totalM = 0;
     int i = 0;
     while(from.getline(rateStr,256)){
-    	string strTemp(rateStr);
-		int pos = strTemp.find(":");
-	    if(-1 != pos) {
-	    	itemId = atoi(strTemp.substr(0,pos).c_str());
-	    	if(0 == itemId ) {
-	    		cout<<strTemp<<"#####################"<<pos<<"####"<<strTemp.substr(0,pos).c_str()<<endl;
-	    		exit(1);
-	    	}		
-            ++fileNum;	 
-	    	if(fileNum %3000 ==0) {
-	    		//malloc_stats();  
-	    		//mallinfo();
-	    		cout<<"read file "<<fileNum<<" sucessfully!"<<endl;
-	    	}
-	    	continue;
-	    }
-    	if(strTemp.length() < 3)continue;
-    	pos1 = strTemp.find(",");
-    	userId = atoi(strTemp.substr(0,pos1).c_str());
-    	pos2 = strTemp.find(",",pos1+1);
-    	rate = atoi(strTemp.substr(pos1+1,pos2-pos1-1).c_str());
-    	//cout<<userId<<'\t'<<itemId<<'\t'<<rate<<endl;exit(1);
-    	if(0 == itemId || 0 == userId ||  0 == rate ) {
-    		cout<<userId<<"#####################"<<endl;
-    		exit(1);
-    	}		
-    	//初始化rateMatrix
-    	try {
-    		rateNode tmpNode;
-    		tmpNode.item = itemId;
-    		tmpNode.rate = (short)rate;
-    		rateMatrixLocal[userId].push_back(tmpNode);
-    	}
-    	catch (bad_alloc& ba)
+        string strTemp(rateStr);
+        int pos = strTemp.find(":");
+        if(-1 != pos) {
+            itemId = atoi(strTemp.substr(0,pos).c_str());
+            if(0 == itemId ) {
+                cout<<strTemp<<"#####################"<<pos<<"####"<<strTemp.substr(0,pos).c_str()<<endl;
+                exit(1);
+            }        
+            ++fileNum;     
+            if(fileNum %3000 ==0) {
+                //malloc_stats();  
+                //mallinfo();
+                cout<<"read file "<<fileNum<<" sucessfully!"<<endl;
+            }
+            continue;
+        }
+        if(strTemp.length() < 3)continue;
+        pos1 = strTemp.find(",");
+        userId = atoi(strTemp.substr(0,pos1).c_str());
+        pos2 = strTemp.find(",",pos1+1);
+        rate = atoi(strTemp.substr(pos1+1,pos2-pos1-1).c_str());
+        //cout<<userId<<'\t'<<itemId<<'\t'<<rate<<endl;exit(1);
+        if(0 == itemId || 0 == userId ||  0 == rate ) {
+            cout<<userId<<"#####################"<<endl;
+            exit(1);
+        }        
+        //初始化rateMatrix
+        try {
+            rateNode tmpNode;
+            tmpNode.item = itemId;
+            tmpNode.rate = (short)rate;
+            rateMatrixLocal[userId].push_back(tmpNode);
+        }
+        catch (bad_alloc& ba)
             {
                 cerr << "bad_alloc caught: " << ba.what() << endl;
             }
     }
     from.close();
-   	cout<<"read file sucessfully!"<<endl;
+       cout<<"read file sucessfully!"<<endl;
     return;
 }
 
@@ -130,29 +130,29 @@ int main()
 
 void getProbeReal()
 {
-	//首先读取probe_t.txt 文件，对于每一个rate，找出对应的实际打分
-	//first read the file probe_t.txt, for every record, find the real rate.
-	ifstream in("probe_t.txt");
-	ofstream out("probe_real.txt");
-	ofstream logNP("n_p.txt");
-	char rateStr[256];
-	int pos1,pos2;
-	string strTemp;
-	int rateValue,itemId,userId;
-	//load userIdMap
-	while(in.getline(rateStr,256)){
-    	strTemp = rateStr;
-	    pos1 = strTemp.find(",");
-    	itemId = atoi(strTemp.substr(0,pos1).c_str());
-    	userId = atoi(strTemp.substr(pos1+1).c_str());
-    	//cout<<itemId<<'\t'<<userId<<'\t'<<endl;	    	exit(0);
-    	rateValue = getRate(rateMatrix[userId],itemId);
-    	if(rateValue == 0) {
-    		logNP<<itemId<<','<<userId<<','<<rateValue<<endl;
-    	}
-    	out<<itemId<<','<<userId<<','<<rateValue<<endl;
+    //首先读取probe_t.txt 文件，对于每一个rate，找出对应的实际打分
+    //first read the file probe_t.txt, for every record, find the real rate.
+    ifstream in("probe_t.txt");
+    ofstream out("probe_real.txt");
+    ofstream logNP("n_p.txt");
+    char rateStr[256];
+    int pos1,pos2;
+    string strTemp;
+    int rateValue,itemId,userId;
+    //load userIdMap
+    while(in.getline(rateStr,256)){
+        strTemp = rateStr;
+        pos1 = strTemp.find(",");
+        itemId = atoi(strTemp.substr(0,pos1).c_str());
+        userId = atoi(strTemp.substr(pos1+1).c_str());
+        //cout<<itemId<<'\t'<<userId<<'\t'<<endl;            exit(0);
+        rateValue = getRate(rateMatrix[userId],itemId);
+        if(rateValue == 0) {
+            logNP<<itemId<<','<<userId<<','<<rateValue<<endl;
+        }
+        out<<itemId<<','<<userId<<','<<rateValue<<endl;
     }
-	in.close(); 
-	out.close();
-	logNP.close();
+    in.close(); 
+    out.close();
+    logNP.close();
 }

@@ -36,17 +36,17 @@ using namespace std;
 
 struct rateNode
 {
-	short item;
-	short rate;
+    short item;
+    short rate;
 };
 
 //use different struct between test set and training set to save memory space
 //when the training set is very large( eg netflix dataset), the saving space is significant
 struct testSetNode
 {
-	int user;
-	short item;
-	short rate;
+    int user;
+    short item;
+    short rate;
 };
 float predictRate(int user,int item,int dim);
 #endif // COMMONHEADER_H_

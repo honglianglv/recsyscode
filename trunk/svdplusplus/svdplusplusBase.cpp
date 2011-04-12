@@ -17,8 +17,8 @@
 #ifndef SVDPLUSPLUS_SVDPLUSPLUSBASE_CPP_
 #define SVDPLUSPLUS_SVDPLUSPLUSBASE_CPP_
 namespace svd{
-  	//use some global variables，store the parameter bu, bi, p, q
-	double bu[USER_NUM+1] = {0};       // the user bias in the baseline predictor
+    //use some global variables，store the parameter bu, bi, p, q
+    double bu[USER_NUM+1] = {0};       // the user bias in the baseline predictor
     double bi[ITEM_NUM+1] = {0};       // the item bias in the baseline predictor
     
     int buNum[USER_NUM+1] = {0};       //用户u打分的item总数， num of user ratings
@@ -33,56 +33,56 @@ namespace svd{
     vector < vector<rateNode> > rateMatrix(USER_NUM+1);   //store training set
     vector<testSetNode> probeRow;                            //store test set
     
-	//initialize the bias bu and bi, the method in the page 2 of koren's TKDD'09 paper
-	void initialBais()
-	{
-		using namespace svd;
-	    int i,j;
-	    for(i = 1; i < USER_NUM+1; ++i){
-	    	int vSize = rateMatrix[i].size();
-			for(j=0; j < vSize; ++j) {
-				bi[rateMatrix[i][j].item] += (rateMatrix[i][j].rate - mean);
-				biNum[rateMatrix[i][j].item] += 1;
-			}			
-	    }
-	    
-	    for(i = 1; i < ITEM_NUM+1; ++i) {
-	    	if(biNum[i] >=1)bi[i] = bi[i]/(biNum[i]+25);
-	    	else bi[i] = 0.0;
-	    	
-	    }
-	   
+    //initialize the bias bu and bi, the method in the page 2 of koren's TKDD'09 paper
+    void initialBais()
+    {
+        using namespace svd;
+        int i,j;
         for(i = 1; i < USER_NUM+1; ++i){
-	    	int vSize = rateMatrix[i].size();
-			for(j=0; j < vSize; ++j) {
-				bu[i] += (rateMatrix[i][j].rate - mean - bi[rateMatrix[i][j].item]);
-				buNum[i] += 1;
-			}			
-	    }
-	    for(i = 1; i < USER_NUM+1; ++i) {
-	    	if(buNum[i]>=1)bu[i] = bu[i]/(buNum[i]+10);
-	    	else bu[i] = 0.0;
-	    }
-	}
-	
-	//intialize the matrix of user character(P), the matrix of item character(Q) and implicit matrix Y
-	void initialPQ(int itemNum, int userNum,int dim)
-	{
-		using namespace svd;
-		int i;
-		//@TODO should do some optimization to the initialization
-	    //is the ramdom function a best way to initialize the p and q?
-		for(int i = 1; i < itemNum+1; ++i){
-	        setRand(q[i],dim,0);
-	        setRand(y[i],dim,0); 
-	    }
-	    
-	    for(int i = 1; i < userNum+1; ++i){
-	        setRand(p[i],dim,0);   
-	    }
-	}
-	
-	void model(int dim, float  alpha1, float alpha2, float beta1, float beta2,
+            int vSize = rateMatrix[i].size();
+            for(j=0; j < vSize; ++j) {
+                bi[rateMatrix[i][j].item] += (rateMatrix[i][j].rate - mean);
+                biNum[rateMatrix[i][j].item] += 1;
+            }            
+        }
+        
+        for(i = 1; i < ITEM_NUM+1; ++i) {
+            if(biNum[i] >=1)bi[i] = bi[i]/(biNum[i]+25);
+            else bi[i] = 0.0;
+            
+        }
+       
+        for(i = 1; i < USER_NUM+1; ++i){
+            int vSize = rateMatrix[i].size();
+            for(j=0; j < vSize; ++j) {
+                bu[i] += (rateMatrix[i][j].rate - mean - bi[rateMatrix[i][j].item]);
+                buNum[i] += 1;
+            }            
+        }
+        for(i = 1; i < USER_NUM+1; ++i) {
+            if(buNum[i]>=1)bu[i] = bu[i]/(buNum[i]+10);
+            else bu[i] = 0.0;
+        }
+    }
+    
+    //intialize the matrix of user character(P), the matrix of item character(Q) and implicit matrix Y
+    void initialPQ(int itemNum, int userNum,int dim)
+    {
+        using namespace svd;
+        int i;
+        //@TODO should do some optimization to the initialization
+        //is the ramdom function a best way to initialize the p and q?
+        for(int i = 1; i < itemNum+1; ++i){
+            setRand(q[i],dim,0);
+            setRand(y[i],dim,0); 
+        }
+        
+        for(int i = 1; i < userNum+1; ++i){
+            setRand(p[i],dim,0);   
+        }
+    }
+    
+    void model(int dim, float  alpha1, float alpha2, float beta1, float beta2,
                int maxStep=60,double slowRate=1,bool isUpdateBias=true)
     {
         cout << "begin initialization: " << endl;
@@ -116,14 +116,14 @@ namespace svd{
                 double sumQE[K_NUM+1] = {0.0}; //tmp 
                 
                 //cacluate puTemp
-               	for( k=1; k<K_NUM+1; ++k) {
-               		double sumy = 0.0;
-               		for(i=0; i < RuNum; ++i) {//  process every item rated by user u(循环处理u打分过的每一个item)
-               			int itemI = rateMatrix[u][i].item;
-               			sumy += y[itemI][k];
-            		}
-            		puTemp[u][k] = p[u][k]+ sqrtRuNum * sumy;
-               	}
+                for( k=1; k<K_NUM+1; ++k) {
+                    double sumy = 0.0;
+                    for(i=0; i < RuNum; ++i) {//  process every item rated by user u(循环处理u打分过的每一个item)
+                        int itemI = rateMatrix[u][i].item;
+                        sumy += y[itemI][k];
+                    }
+                    puTemp[u][k] = p[u][k]+ sqrtRuNum * sumy;
+                }
                    
                 //迭代处理
                 for(i=0; i < RuNum; ++i) {//  process every item rated by user u(循环处理u打分过的每一个item)
@@ -144,25 +144,25 @@ namespace svd{
                     if(n % 10000000 == 0)cout<<"step:"<<step<<"    n:"<<n<<" dealed!"<<endl;
                     
                     if(isUpdateBias) {
-                    	bu[u] += alpha1 * (eui - beta1 * bu[u]);
-                    	bi[itemI] += alpha1 * (eui - beta1 * bi[itemI]);
+                        bu[u] += alpha1 * (eui - beta1 * bu[u]);
+                        bi[itemI] += alpha1 * (eui - beta1 * bi[itemI]);
                     }
                     
                     for( k=1; k< K_NUM+1; ++k) {
-                    	//@TODO use previous p[u] or current ?
+                        //@TODO use previous p[u] or current ?
                         //double tempPu = p[u][k]; 
-                    	p[u][k] += alpha2 * (eui*q[itemI][k] - beta2*p[u][k]);
+                        p[u][k] += alpha2 * (eui*q[itemI][k] - beta2*p[u][k]);
                         q[itemI][k] += alpha2 * (eui*puTemp[u][k] - beta2*q[itemI][k]);
-	            		sumQE[K_NUM+1] = eui * q[itemI][k];
+                        sumQE[K_NUM+1] = eui * q[itemI][k];
                     }
                 }
                 
                 for(j=0; j < RuNum; ++j) {// process every item rated by user u(循环处理u打分过的每一个item)
-               		int itemJ = rateMatrix[u][j].item;
-	            	for( k=1; k< K_NUM+1; ++k) {
-	            		y[itemJ][k] += alpha2 * (sqrtRuNum * sumQE[k] - beta2*y[itemJ][k]);
-	            	}
-            	}
+                    int itemJ = rateMatrix[u][j].item;
+                    for( k=1; k< K_NUM+1; ++k) {
+                        y[itemJ][k] += alpha2 * (sqrtRuNum * sumQE[k] - beta2*y[itemJ][k]);
+                    }
+                }
             }
             nowRmse =  sqrt( rmse / n);
             
@@ -185,7 +185,7 @@ namespace svd{
  */
 float predictRate(int user, int item,int dim)
 {
-	using namespace svd;
+    using namespace svd;
     int RuNum = rateMatrix[user].size(); //the num of items rated by user
     double ret; 
     if(RuNum >= 1) {

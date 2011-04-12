@@ -32,40 +32,40 @@ $movieId = 0;
 $rateContent = $ret = '';
 foreach( glob($dirBase.'*.txt') as $filename)
 {
-	//get the movieId from the file name
-	
-	$posStart = strrpos($filename,'_');
-	$posEnd = strrpos($filename,'.');
-	$movieId = substr($filename,$posStart+1);
-	
-	$handler = fopen($dstBase.$movieId,'w');
-	$rateHandler = fopen($filename,'r');
-	while (!feof($rateHandler)) 
-	{
-		$buffer = fgets($rateHandler, 4096);
-		$details = explode(',',$buffer);
-		$userId = '';
-		if(count($details)< 2)continue;
-		if(!isset($userIds[$details[0]]))
-		{
-			$userIds[$details[0]] = $userNum; //give the new UserId for every user
-			$userId = $userNum;
-			++$userNum;
-		}
-		else
-		{
-			$userId = $userIds[$details[0]];
-		}
-		fwrite($handler, $userId.','.$details[1].','.$details[2]);
-	}
-	fclose($handler);
-	fclose($rateHandler);
-	echo $filename." is dealed!\n";
+    //get the movieId from the file name
+    
+    $posStart = strrpos($filename,'_');
+    $posEnd = strrpos($filename,'.');
+    $movieId = substr($filename,$posStart+1);
+    
+    $handler = fopen($dstBase.$movieId,'w');
+    $rateHandler = fopen($filename,'r');
+    while (!feof($rateHandler)) 
+    {
+        $buffer = fgets($rateHandler, 4096);
+        $details = explode(',',$buffer);
+        $userId = '';
+        if(count($details)< 2)continue;
+        if(!isset($userIds[$details[0]]))
+        {
+            $userIds[$details[0]] = $userNum; //give the new UserId for every user
+            $userId = $userNum;
+            ++$userNum;
+        }
+        else
+        {
+            $userId = $userIds[$details[0]];
+        }
+        fwrite($handler, $userId.','.$details[1].','.$details[2]);
+    }
+    fclose($handler);
+    fclose($rateHandler);
+    echo $filename." is dealed!\n";
 }
 $userIdStr  = '';
 foreach($userIds as $key=>$userId)
 {
-	$userIdStr .= $key."\t".$userId."\n";
+    $userIdStr .= $key."\t".$userId."\n";
 }
 file_put_contents('userIds',$userIdStr);
 ?>

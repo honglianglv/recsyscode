@@ -38,7 +38,7 @@ namespace knn{
     vector<float> mi(ITEM_NUM+1,0.0);         //store the mean rate of every item(用来存储每个item的平均打分)
     float w[ITEM_NUM+1][ITEM_NUM+1] = {0};    //item-item similarity matrix(item-item相似矩阵)
     map<int,short> rateMatrix[ITEM_NUM+1];    //use a map to store the sparse rate matrix(使用一个map数组存储稀疏的打分矩阵)
-	float mean = 0;                           //mean of all ratings(全局的平均值)
+    float mean = 0;                           //mean of all ratings(全局的平均值)
     
     //function declaration    
     float getKmax(vector<float>& array, int K);
@@ -47,68 +47,68 @@ namespace knn{
     void getKMaxSim(int K, const char* source="movielens")
     {
         cout << "begin initialization: " << endl;
-	    char rateStr[256];
-	    char* pch;    
-	    vector<float> simArray;
-	    int itemNum = 0;
-	    string dst = string(source) + "_kmax";
-	    std::ifstream from(source);
-	    ofstream to(dst.c_str());
-	    if (!from.is_open()) {
-	    	cout << "can't open  operation failed!\n";
-	    	exit(1);
-	  	}
-	    char* separator = "	";
-	    int itemI = 0, itemJ = 0;
-	    float sim = 0.0;
-	    while(from.getline(rateStr,256)){
-	    	string strTemp(rateStr);
-			int pos = strTemp.find(":");
-		    if(-1 != pos) {
-		    	itemI = atoi(strTemp.substr(0,pos).c_str());
-		    	
-		    	if(0 == itemI ) {
-		    		cout<<strTemp<<"#####################"<<endl;
-		    		exit(1);
-		    	}
-		    	float kmaxValue = getKmax(simArray,K);
-		    	to << itemI << '\t' << kmaxValue <<endl;
-		    	simArray.clear(); //清空vector,为获取下一个item的k-max similarity做准备	
-		    	++itemNum;	 
-		    	if(itemNum %3000 ==0) {
-		    		cout<<"read item "<<itemNum<<" sucessfully!"<<endl;
-		    	}
-		    	continue;
-		    }
-	    	if(strTemp.length() < 3)continue;
-	    	int i = 0;
-	    	pch = strtok (rateStr,separator);
-		    while (pch != NULL) {
-		        if(0 == i) itemJ = atoi(pch);
-		        else if(1 == i) sim = atof(pch);
-		        else if(i > 1) break;
-		        ++i;
-		        pch = strtok (NULL,separator);
-		  	}
-	    	if(0 == itemI || 0 == itemJ) {
-	    		cout<<strTemp<<"#####################"<<endl;
-	    		exit(1);
-	    	}		
-	        simArray.push_back(sim);
-	    }
-	    from.close();
-	    cout<<"end load training rate!"<<endl;
-	    cout<<"successfully exit!"<<endl;
+        char rateStr[256];
+        char* pch;    
+        vector<float> simArray;
+        int itemNum = 0;
+        string dst = string(source) + "_kmax";
+        std::ifstream from(source);
+        ofstream to(dst.c_str());
+        if (!from.is_open()) {
+            cout << "can't open  operation failed!\n";
+            exit(1);
+        }
+        char* separator = "    ";
+        int itemI = 0, itemJ = 0;
+        float sim = 0.0;
+        while(from.getline(rateStr,256)){
+            string strTemp(rateStr);
+            int pos = strTemp.find(":");
+            if(-1 != pos) {
+                itemI = atoi(strTemp.substr(0,pos).c_str());
+                
+                if(0 == itemI ) {
+                    cout<<strTemp<<"#####################"<<endl;
+                    exit(1);
+                }
+                float kmaxValue = getKmax(simArray,K);
+                to << itemI << '\t' << kmaxValue <<endl;
+                simArray.clear(); //清空vector,为获取下一个item的k-max similarity做准备    
+                ++itemNum;     
+                if(itemNum %3000 ==0) {
+                    cout<<"read item "<<itemNum<<" sucessfully!"<<endl;
+                }
+                continue;
+            }
+            if(strTemp.length() < 3)continue;
+            int i = 0;
+            pch = strtok (rateStr,separator);
+            while (pch != NULL) {
+                if(0 == i) itemJ = atoi(pch);
+                else if(1 == i) sim = atof(pch);
+                else if(i > 1) break;
+                ++i;
+                pch = strtok (NULL,separator);
+            }
+            if(0 == itemI || 0 == itemJ) {
+                cout<<strTemp<<"#####################"<<endl;
+                exit(1);
+            }        
+            simArray.push_back(sim);
+        }
+        from.close();
+        cout<<"end load training rate!"<<endl;
+        cout<<"successfully exit!"<<endl;
     }
     
     //下面的这个函数用来利用最小堆找出第k大的相似度
     //get the k-max largest similarity in the array  using the minimum heap
-	float getKmax(vector<float>& array, int K)
-	{
-		int arraySize = array.size();
-		if(arraySize < K)return 0.0; //if size < K, then the k-max value is 0
-		vector<float> heapTmp;
-		for(int i=0; i < array.size(); ++i)
+    float getKmax(vector<float>& array, int K)
+    {
+        int arraySize = array.size();
+        if(arraySize < K)return 0.0; //if size < K, then the k-max value is 0
+        vector<float> heapTmp;
+        for(int i=0; i < array.size(); ++i)
             {
                 heapTmp.push_back(array[i]);
                 if(i == K-1) {
@@ -121,22 +121,22 @@ namespace knn{
                 }
                 //cout << i<<'\t'<<heapTmp.size()<<endl;
             }
-		return heapTmp.front();
-	}
-	
-	bool cmp(double a, double b)
-	{
-		return a > b;
-	}
+        return heapTmp.front();
+    }
+    
+    bool cmp(double a, double b)
+    {
+        return a > b;
+    }
 };
 
 int main(int argc, char ** argv)
 {
-	time_t start,end;
+    time_t start,end;
     struct tm * timeStartInfo;
     struct tm * timeEndInfo;
     double duration; 
-	start = time(NULL);
+    start = time(NULL);
     timeStartInfo = localtime(&start);
     string timeStartStr = asctime(timeStartInfo);
     knn::getKMaxSim(300);

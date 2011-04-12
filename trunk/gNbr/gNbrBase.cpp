@@ -17,8 +17,8 @@
 #ifndef GNBR_GNBRBASE_CPP_
 #define GNBR_GNBRBASE_CPP_
 namespace svd{
-  	//use some global variables，store the parameter bu, bi, p, q,y
-	double bu[USER_NUM+1] = {0};       // the user bias in the baseline predictor
+    //use some global variables，store the parameter bu, bi, p, q,y
+    double bu[USER_NUM+1] = {0};       // the user bias in the baseline predictor
     double bi[ITEM_NUM+1] = {0};       // the item bias in the baseline predictor
     float buBase[USER_NUM+1] = {0};
     float biBase[ITEM_NUM+1] = {0};       //stored and unchanged bias of user and item
@@ -33,52 +33,52 @@ namespace svd{
     vector < vector<rateNode> > rateMatrix(USER_NUM+1);   //store training set
     vector<testSetNode> probeRow;                            //store test set
     
-	//initialize the bias bu and bi, the method in the page 2 of koren's TKDD'09 paper
-	void initialBais()
-	{
-		using namespace svd;
-	    int i,j;
-	    for(i = 1; i < USER_NUM+1; ++i){
-	    	int vSize = rateMatrix[i].size();
-			for(j=0; j < vSize; ++j) {
-				bi[rateMatrix[i][j].item] += (rateMatrix[i][j].rate - mean);
-				biNum[rateMatrix[i][j].item] += 1;
-			}			
-	    }
-	    
-	    for(i = 1; i < ITEM_NUM+1; ++i) {
-	    	if(biNum[i] >=1)bi[i] = bi[i]/(biNum[i]+25);
-	    	else bi[i] = 0.0;
-	    	biBase[i] = bi[i];
-	    }
-	   
+    //initialize the bias bu and bi, the method in the page 2 of koren's TKDD'09 paper
+    void initialBais()
+    {
+        using namespace svd;
+        int i,j;
         for(i = 1; i < USER_NUM+1; ++i){
-	    	int vSize = rateMatrix[i].size();
-			for(j=0; j < vSize; ++j) {
-				bu[i] += (rateMatrix[i][j].rate - mean - bi[rateMatrix[i][j].item]);
-				buNum[i] += 1;
-			}			
-	    }
-	    for(i = 1; i < USER_NUM+1; ++i) {
-	    	if(buNum[i]>=1)bu[i] = bu[i]/(buNum[i]+10);
-	    	else bu[i] = 0.0;
-	    	buBase[i] = bu[i];
-	    }
-	}
-	
-	//intialize the matrix of explicit weight(W) and implicit matrix C
-	void initialPQ(int itemNum, int userNum,int dim)
-	{
-		using namespace svd;
-		int i;
-		//@TODO should do some optimization to the initialization 不知道是否能针对初始化的过程做一些优化
-		for(int i = 1; i < itemNum+1; ++i){
-	        setRand((double*)w[i],dim,0); 
-	        setRand((double*)c[i],dim,0);
-	    }
-	}
-	
-	void model(int dim, float  alpha1, float alpha2, float beta1, float beta2,
+            int vSize = rateMatrix[i].size();
+            for(j=0; j < vSize; ++j) {
+                bi[rateMatrix[i][j].item] += (rateMatrix[i][j].rate - mean);
+                biNum[rateMatrix[i][j].item] += 1;
+            }            
+        }
+        
+        for(i = 1; i < ITEM_NUM+1; ++i) {
+            if(biNum[i] >=1)bi[i] = bi[i]/(biNum[i]+25);
+            else bi[i] = 0.0;
+            biBase[i] = bi[i];
+        }
+       
+        for(i = 1; i < USER_NUM+1; ++i){
+            int vSize = rateMatrix[i].size();
+            for(j=0; j < vSize; ++j) {
+                bu[i] += (rateMatrix[i][j].rate - mean - bi[rateMatrix[i][j].item]);
+                buNum[i] += 1;
+            }            
+        }
+        for(i = 1; i < USER_NUM+1; ++i) {
+            if(buNum[i]>=1)bu[i] = bu[i]/(buNum[i]+10);
+            else bu[i] = 0.0;
+            buBase[i] = bu[i];
+        }
+    }
+    
+    //intialize the matrix of explicit weight(W) and implicit matrix C
+    void initialPQ(int itemNum, int userNum,int dim)
+    {
+        using namespace svd;
+        int i;
+        //@TODO should do some optimization to the initialization 不知道是否能针对初始化的过程做一些优化
+        for(int i = 1; i < itemNum+1; ++i){
+            setRand((double*)w[i],dim,0); 
+            setRand((double*)c[i],dim,0);
+        }
+    }
+    
+    void model(int dim, float  alpha1, float alpha2, float beta1, float beta2,
                int maxStep=60,double slowRate=1,bool isUpdateBias=true)
     {
         cout << "begin initialization: " << endl;
@@ -127,16 +127,16 @@ namespace svd{
                     if(n % 10000000 == 0)cout<<"step:"<<step<<"    n:"<<n<<" dealed!"<<endl;
                     
                     if(isUpdateBias) {
-                    	bu[u] += alpha1 * (eui - beta1 * bu[u]);
-                    	bi[itemI] += alpha1 * (eui - beta1 * bi[itemI]);
+                        bu[u] += alpha1 * (eui - beta1 * bu[u]);
+                        bi[itemI] += alpha1 * (eui - beta1 * bi[itemI]);
                     }
                     
                     for( j=0; j< RuNum; ++j) {
-	               		int itemJ = rateMatrix[u][j].item;
-	               		double ruj = (double)rateMatrix[u][j].rate;
-	               		w[itemI][itemJ] +=  alpha2 * (sqrtRuNum*eui*(ruj - mean -bu[u]-bi[itemJ]) - beta2*w[itemI][itemJ]);
-	               		c[itemI][itemJ] +=  alpha2 * (sqrtRuNum*eui - beta2*c[itemI][itemJ]);
-	               	}
+                        int itemJ = rateMatrix[u][j].item;
+                        double ruj = (double)rateMatrix[u][j].rate;
+                        w[itemI][itemJ] +=  alpha2 * (sqrtRuNum*eui*(ruj - mean -bu[u]-bi[itemJ]) - beta2*w[itemI][itemJ]);
+                        c[itemI][itemJ] +=  alpha2 * (sqrtRuNum*eui - beta2*c[itemI][itemJ]);
+                    }
                 }
             }
             nowRmse =  sqrt( rmse / n);
@@ -160,10 +160,10 @@ namespace svd{
  */
 float predictRate(int user,int item,int dim)
 {
-	using namespace svd;
-	int RuNum = rateMatrix[user].size(); //用户u打过分的item数目
+    using namespace svd;
+    int RuNum = rateMatrix[user].size(); //用户u打过分的item数目
     double ret; 
-	if(RuNum > 1)
+    if(RuNum > 1)
         {
             double sumEx = 0.0, sumIm = 0.0;
             float sqrtRuNum = 1/sqrt(RuNum);
@@ -173,11 +173,11 @@ float predictRate(int user,int item,int dim)
                 sumEx = (rate - mean - bu[user] - bi[itemI]) * w[item][itemI];
                 sumIm = c[item][itemI];
             }
-		
+        
             ret = mean + bu[user] + bi[item] + sqrtRuNum * (sumEx+sumIm);//这里先不对k进行变化，先取k=无穷大
         }
-	else ret  = mean+bu[user] + bi[item];
-	if(ret < 1.0) ret = 1;
+    else ret  = mean+bu[user] + bi[item];
+    if(ret < 1.0) ret = 1;
     if(ret > 5.0) ret = 5;
     return ret;
 }

@@ -31,11 +31,11 @@
 
 int main(int argc, char ** argv)
 {
-	time_t start,end;
+    time_t start,end;
     struct tm * timeStartInfo;
     struct tm * timeEndInfo;
     double duration; 
-	start = time(NULL);
+    start = time(NULL);
     timeStartInfo = localtime(&start);
     string timeStartStr = asctime(timeStartInfo);
     float alpha = 0.01;  
@@ -43,10 +43,10 @@ int main(int argc, char ** argv)
 
     //for(int i=0; i < 10; i++)
     {
-    	//alpha = i*0.0005 + 0.0025;
-    	//cout << alpha << endl;
-    	//void model(int dim, float alpha, float beta, int maxStep=60, double slowRate=1,bool isUpdateBias=true)
-    	svd::model(K_NUM,alpha,beta,60,1,false);	
+        //alpha = i*0.0005 + 0.0025;
+        //cout << alpha << endl;
+        //void model(int dim, float alpha, float beta, int maxStep=60, double slowRate=1,bool isUpdateBias=true)
+        svd::model(K_NUM,alpha,beta,60,1,false);    
     }
     end = time(NULL);
     duration = (end-start);
