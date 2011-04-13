@@ -19,7 +19,7 @@
 #include <dirent.h>
 #include <string>
 #include <errno.h>
-#define DIR_PATH "./nf_dataset/transfer_set/"
+#define DIR_PATH "./transfer_set/"
 using namespace std;
 
 

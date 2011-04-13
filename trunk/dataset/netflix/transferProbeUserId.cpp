@@ -14,10 +14,21 @@
  * function:
  *  Transfer the probe.txt of netflix dataset  to probe_t.txt with  sequential userIds
  */
-#include<vector>
+#include <iostream>
+#include <string>
+#include <string.h>
+#include <vector>
+#include <math.h>
+#include <map>
 #include <sstream>
 #include <fstream>
+#include <stdlib.h>
+#include <algorithm>
+#include <ctime>
+#include <dirent.h>
 #include <malloc.h>
+#include <errno.h>
+#include <time.h>
 #define USER_NUM 480189
 #define ITEM_NUM 17770
 using namespace std;
@@ -42,10 +53,9 @@ int main (void)
         try {
             userMap[str1] = str2;
         }
-        catch (bad_alloc& ba)
-            {
-                cerr << "bad_alloc caught: " << ba.what() << endl;
-            }
+        catch (bad_alloc& ba){
+            cerr << "bad_alloc caught: " << ba.what() << endl;
+        }
     }
     userIdFile.close(); //finish loading userId map
     
