@@ -58,7 +58,7 @@ the steps to quick start
 
 
 = English vesion =
-The step of quick use this projec:
+The step of quick use this project:
   * the way to get the source code is "svn checkout"，for detials [http://code.google.com/p/recsyscode/source/checkout click here]
   * Familiar with the directory structure:
 {{{
