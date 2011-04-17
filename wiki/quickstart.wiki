@@ -9,6 +9,7 @@ the steps to quick start
 = Details =
 
 快速使用本project的步骤:
+  * 获取源代码方式是使用svn checkout，详情[http://code.google.com/p/recsyscode/source/checkout 点击这里]
   * 认识目录结构
 {{{
     |-common.cpp  //所有程序都可能用到的一些公共函数
