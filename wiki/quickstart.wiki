@@ -34,7 +34,7 @@ the steps to quick start
      -gNbr(global neighborhood based model,内容从svd类推)
      -baseline(baseline model, 内容从svd类推）
      -combine(asymSvd+svdplusplus,内容从svd类推)
-     -knn(情况稍有不同，稍后详细介绍)
+     -knn([knnstep 详情点击这里])
      -stat-|
            -statBase.cpp(统计数据集宏观信息，目前仅仅统计item和user打分数量)
            -stat_ml.cpp(统计movielens数据集的宏观信息)
@@ -63,44 +63,44 @@ The step of quick use this projec:
   * Familiar with the directory structure:
 {{{
     |-common.cpp  //The common functions used by most of the codes
-     -commonHeader.h //所有程序都可能用到的一些头文件，训练集，测试集节点 结构
-     -mlBase.cpp     //movielens 数据集可能用到的一些公共函数，包括load 测试集数据和load 训练集数据这两个函数
-     -netflixBase.cpp //netflix 数据集可能用到的一些公共函数，包括load测试集和训练集的两个函数
+     -commonHeader.h //The common header，including the node structure of training set and test set
+     -mlBase.cpp     //the common function of movielens dataset, including the function of loading testing dataset and the function of loading training set
+     -netflixBase.cpp //the common function of movielens dataset, including the function of loading testing dataset and the function of loading training set
      -dataset-|
                -movielens-|
-                          -u1.base（训练集）
-                          -u1.test（测试集）
+                          -u1.base（test set）
+                          -u1.test（training set）
                -netflix-|
-                         -data_without_prob.txt(测试集）
-                         -probe_real.txt(测试集）
-                         -other files(构造以上两个文件的程序）
+                         -data_without_prob.txt(training set）
+                         -probe_real.txt(test set）
+                         -other files(for generating data_without_prob.txt and probe_real.txt[netflixpreprocess click to get detail]）
      -svd-|
-           -svdBase.cpp svd model的一些公共函数，包括svd的所有相关内容
-           -svd_ml.cpp  svd model使用movielens的情况，中间有main函数，这个是最终需要执行的文件
-           -svd_netflix.cpp svd model 使用netflix的情况，中间有main函数，程序入口
-     -svdplusplus(svd++ model,内容从svd类推）
-     -asymSvd(asymmetric svd model,内容从svd类推）
-     -gNbr(global neighborhood based model,内容从svd类推)
-     -baseline(baseline model, 内容从svd类推）
-     -combine(asymSvd+svdplusplus,内容从svd类推)
-     -knn(情况稍有不同，稍后详细介绍)
+           -svdBase.cpp the common function for svd model
+           -svd_ml.cpp  use movielens dataset to test the svd model，there is a "main" function in this file and it is the entrance of the programme.
+           -svd_netflix.cpp svd model  use movielens dataset to test the svd model，there is a "main" function in this file and it is the entrance of the programme.
+     -svdplusplus(svd++ model, similar as svd model）
+     -asymSvd(asymmetric svd model, similar as svd model）
+     -gNbr(global neighborhood based model, similar as svd model)
+     -baseline(baseline model, similar as svd model）
+     -combine(asymSvd+svdplusplus, similar as svd model)
+     -knn([knnstep details described here])
      -stat-|
-           -statBase.cpp(统计数据集宏观信息，目前仅仅统计item和user打分数量)
-           -stat_ml.cpp(统计movielens数据集的宏观信息)
-           -stat_netflix.cpp(统计netflix数据集宏观信息)
+           -statBase.cpp(stat the overall info of the dataset. For now, just stat the num of the item rated and the num of the ratings of user)
+           -stat_ml.cpp(stat the overall info of movielens dataset)
+           -stat_netflix.cpp(stat the overall info of netflix dataset)
 
 }}}
-  * 获得测试数据
-     # movielens 数据可以直接从官方网站下[http://www.grouplens.org/node/73 movielens_dataset]
-     # netflix 数据官方目前不提供，可以从我的博客上下载[http://www.lifecrunch.biz/archives/207 netflix_dataset]
-     # 下载后预处理步骤在这里：[http://code.google.com/p/recsyscode/wiki/netflixpreprocess netflix数据集预处理步骤]
-  * 开始试用第一个model-svd
-     # 将代码check out到本地
-     # 下载movielens的数据集，解压缩，并且把u1.test,u1.base这两个文件放入./dataset/movielens/文件夹中
-     # 检查/svd/svd_ml.cpp define部分参数是否正确
-     # 编译运行
+  * get the test datasets
+     # movielens dataset can get from the offical websit:[http://www.grouplens.org/node/73 movielens_dataset]
+     # netflix dataset isn't available on netflix offical website, but can get from my blog:[http://www.lifecrunch.biz/archives/207 netflix_dataset]
+     # The preprocess of netflix dataset is here：[http://code.google.com/p/recsyscode/wiki/netflixpreprocess netflix prepocess]
+  * start to test the first modle: svd modle
+     # check out the code, [http://code.google.com/p/recsyscode/source/checkout click here] to get details 
+     # download the movielens 100K dataset，decompress the dataset，and put the two files u1.test,u1.base into the directory "./dataset/movielens/"
+     # check the define setcion of the file "/svd/svd_ml.cpp" to make them correct.
+     # complie and run
        cd ./svd/<br/>
        g++ svd_ml.cpp<br/>
        ./a.out
-  * 结果比较
-    想知道你的结果是否正确，可以参考koren SIGKDD‘08的论文，或者 Ma, C C（Guide to Singular Value Decomposition for Collaborative Filtering）的结果。本人运行的结果在这里：[http://code.google.com/p/recsyscode/wiki/SVDResult svd结果],[http://code.google.com/p/recsyscode/wiki/knnResults knn结果]。欢迎大家把自己运行的结果贴上来
+  * compare the result of the models
+    To get whether your result is right or wrong, you can 确，可以参考koren SIGKDD‘08的论文，或者 Ma, C C（Guide to Singular Value Decomposition for Collaborative Filtering）的结果。本人运行的结果在这里：[http://code.google.com/p/recsyscode/wiki/SVDResult svd结果],[http://code.google.com/p/recsyscode/wiki/knnResults knn结果]。欢迎大家把自己运行的结果贴上来
