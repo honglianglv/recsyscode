@@ -7,7 +7,7 @@ the steps to quick start
 
 
 = Details =
-*[#e English vesion]
+*[#English_vesion English vesion]
 
 快速使用本project的步骤:
   * 获取源代码方式是使用svn checkout，详情[http://code.google.com/p/recsyscode/source/checkout 点击这里]
@@ -58,3 +58,49 @@ the steps to quick start
 
 
 = English vesion =
+The step of quick use this projec:
+  * the way to get the source code is "svn checkout"，for detials [http://code.google.com/p/recsyscode/source/checkout click here]
+  * 认识目录结构
+{{{
+    |-common.cpp  //所有程序都可能用到的一些公共函数
+     -commonHeader.h //所有程序都可能用到的一些头文件，训练集，测试集节点 结构
+     -mlBase.cpp     //movielens 数据集可能用到的一些公共函数，包括load 测试集数据和load 训练集数据这两个函数
+     -netflixBase.cpp //netflix 数据集可能用到的一些公共函数，包括load测试集和训练集的两个函数
+     -dataset-|
+               -movielens-|
+                          -u1.base（训练集）
+                          -u1.test（测试集）
+               -netflix-|
+                         -data_without_prob.txt(测试集）
+                         -probe_real.txt(测试集）
+                         -other files(构造以上两个文件的程序）
+     -svd-|
+           -svdBase.cpp svd model的一些公共函数，包括svd的所有相关内容
+           -svd_ml.cpp  svd model使用movielens的情况，中间有main函数，这个是最终需要执行的文件
+           -svd_netflix.cpp svd model 使用netflix的情况，中间有main函数，程序入口
+     -svdplusplus(svd++ model,内容从svd类推）
+     -asymSvd(asymmetric svd model,内容从svd类推）
+     -gNbr(global neighborhood based model,内容从svd类推)
+     -baseline(baseline model, 内容从svd类推）
+     -combine(asymSvd+svdplusplus,内容从svd类推)
+     -knn(情况稍有不同，稍后详细介绍)
+     -stat-|
+           -statBase.cpp(统计数据集宏观信息，目前仅仅统计item和user打分数量)
+           -stat_ml.cpp(统计movielens数据集的宏观信息)
+           -stat_netflix.cpp(统计netflix数据集宏观信息)
+
+}}}
+  * 获得测试数据
+     # movielens 数据可以直接从官方网站下[http://www.grouplens.org/node/73 movielens_dataset]
+     # netflix 数据官方目前不提供，可以从我的博客上下载[http://www.lifecrunch.biz/archives/207 netflix_dataset]
+     # 下载后预处理步骤在这里：[http://code.google.com/p/recsyscode/wiki/netflixpreprocess netflix数据集预处理步骤]
+  * 开始试用第一个model-svd
+     # 将代码check out到本地
+     # 下载movielens的数据集，解压缩，并且把u1.test,u1.base这两个文件放入./dataset/movielens/文件夹中
+     # 检查/svd/svd_ml.cpp define部分参数是否正确
+     # 编译运行
+       cd ./svd/<br/>
+       g++ svd_ml.cpp<br/>
+       ./a.out
+  * 结果比较
+    想知道你的结果是否正确，可以参考koren SIGKDD‘08的论文，或者 Ma, C C（Guide to Singular Value Decomposition for Collaborative Filtering）的结果。本人运行的结果在这里：[http://code.google.com/p/recsyscode/wiki/SVDResult svd结果],[http://code.google.com/p/recsyscode/wiki/knnResults knn结果]。欢迎大家把自己运行的结果贴上来
