@@ -5,8 +5,10 @@
 
 目前可以得到的一些数据集汇总.
 
+The datasets available for testing
 
 = Details =
+*[English_version English version]
 
 ==目前可以得到的一些数据集汇总，我先抛砖引玉，希望大家提供更多的内容：==
   # movielens 数据集，官方提供下载：[http://www.grouplens.org/node/73 movielens数据集]
@@ -20,3 +22,18 @@
   #yahoo提供的dataset，但是要申请，而且处理很慢，我11年4月6日提交了请求，目前还没有反馈[http://webscope.sandbox.yahoo.com/ yahoo sandbox dataset]
 
 === 备注：能下载的大家赶紧下载吧:-)，说不定哪天就不能下载了:-( 迫切希望大家提供更多的数据集)===
+
+
+= English version =
+==There are some datasets available for public now and welcome you to provide more==
+  # movielens dataset, offical download: [http://www.grouplens.org/node/73 movielens dataset]
+  # netflix dataset, is not available on the netflix website but provided in my blog: [http://www.lifecrunch.biz/archives/207 netflix_dataset]
+  # Jester dataset：[http://www.ieor.berkeley.edu/~goldberg/jester-data/ Jester_dataset] This dataset contains 4.1 million continuous ratings (-10.00 to +10.00) of 100 jokes from 73,421 users; therefore it differentiates itself from other datasets by having a much smaller number of rateable items. 
+  # yahoo music dataset，[http://kddcup.yahoo.com/datasets.php kdd_cup_dataset]
+(1)track1: 每个item至少有20个打分，每个user至少有10个打分
+(2)track2:每个item至少有20个打分，每个user至少有17个打分
+  #UCI Machine Learning Repository:[http://archive.ics.uci.edu/ml/datasets.html UCI datasets]
+  #amazon-meta dataset: [http://snap.stanford.edu/data/amazon-meta.html Amazon product co-purchasing network metadata]
+  #the dataset provided by yahoo, have to apply:[http://webscope.sandbox.yahoo.com/ yahoo sandbox dataset]
+
+=== Hope you provide more datasets for us!===
