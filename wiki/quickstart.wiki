@@ -103,4 +103,4 @@ The step of quick use this projec:
        g++ svd_ml.cpp<br/>
        ./a.out
   * compare the result of the models
-    To get whether your result is right or wrong, you can 确，可以参考koren SIGKDD‘08的论文，或者 Ma, C C（Guide to Singular Value Decomposition for Collaborative Filtering）的结果。本人运行的结果在这里：[http://code.google.com/p/recsyscode/wiki/SVDResult svd结果],[http://code.google.com/p/recsyscode/wiki/knnResults knn结果]。欢迎大家把自己运行的结果贴上来
+    To get whether your result is right or wrong, you can reference the paper of koren in SIGKDD'08，or the paper of  Ma, C C（Guide to Singular Value Decomposition for Collaborative Filtering）。My result of running the model is here: [http://code.google.com/p/recsyscode/wiki/SVDResult the result of svd],[http://code.google.com/p/recsyscode/wiki/knnResults the result of knn]. Welcome to paste the result of yours.
