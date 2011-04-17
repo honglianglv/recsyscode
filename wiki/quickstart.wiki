@@ -60,9 +60,9 @@ the steps to quick start
 = English vesion =
 The step of quick use this projec:
   * the way to get the source code is "svn checkout"，for detials [http://code.google.com/p/recsyscode/source/checkout click here]
-  * 认识目录结构
+  * Familiar with the directory structure:
 {{{
-    |-common.cpp  //所有程序都可能用到的一些公共函数
+    |-common.cpp  //The common functions used by most of the codes
      -commonHeader.h //所有程序都可能用到的一些头文件，训练集，测试集节点 结构
      -mlBase.cpp     //movielens 数据集可能用到的一些公共函数，包括load 测试集数据和load 训练集数据这两个函数
      -netflixBase.cpp //netflix 数据集可能用到的一些公共函数，包括load测试集和训练集的两个函数
