@@ -11,8 +11,7 @@
  * It is free software; you can redistribute it and/or modify it under 
  * the license GPLV3.
  *
- * The purpose of this program is to implement the in the SVD method of koren's SIGKDD'08 paper,
- * using the movielens dataset.
+ * The purpose of this program is to implement the KNN model, using the movielens dataset.
  *
  */
  
