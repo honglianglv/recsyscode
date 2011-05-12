@@ -23,8 +23,8 @@
 #define USER_NUM 943 //10K:943 1M:6040
 #define ITEM_NUM 1682 //10K:1682 1M:3900
 #define K_NUM  50     //dimension
-#define TRAINING_SET "../dataset/movielens/u1.test" //training set
-#define PROBE_SET "../dataset/movielens/u1.base"  //test set
+#define TRAINING_SET "../dataset/movielens/u1.base" //training set
+#define PROBE_SET "../dataset/movielens/u1.test"  //test set
 #define RATE_SP "	"  //rate Separator
 #include "./svdBase.cpp"
 
