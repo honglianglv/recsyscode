@@ -153,7 +153,7 @@ namespace svd{
                         //double tempPu = p[u][k]; 
                         p[u][k] += alpha2 * (eui*q[itemI][k] - beta2*p[u][k]);
                         q[itemI][k] += alpha2 * (eui*puTemp[u][k] - beta2*q[itemI][k]);
-                        sumQE[K_NUM+1] += eui * q[itemI][k];
+                        sumQE[K_NUM] += eui * q[itemI][k];
                     }
                 }
                 
