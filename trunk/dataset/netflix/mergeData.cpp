@@ -17,6 +17,7 @@
 #include <iostream>
 #include <fstream>
 #include <dirent.h>
+#include <stdlib.h>
 #include <string>
 #include <errno.h>
 #define DIR_PATH "./transfer_set/"
