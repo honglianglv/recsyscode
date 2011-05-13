@@ -22,7 +22,7 @@ the steps of pre-process the netflix dataset is as follows:
   * merge the rating files to one file (./dataset/netflix/mergeData.cpp)
       ./dataset/netflix/transfer_set/(files) ->./dataset/netflix/data.txt
   * get the real rate of the probe set (./dataset/netflix/getProbeReal.cpp)
-   ./dataset/netflix/probe_t->./dataset/netflix/probe_real.txt
+   ./dataset/netflix/probe_t.txt->./dataset/netflix/probe_real.txt
     
   * get the training dataset without probe ratings(./dataset/netflix/getDataWithoutProbe.cpp)
     ./dataset/netflix/transfer_set/(files) ->./dataset/netflix/data_without_prob.txt
