@@ -20,17 +20,18 @@
 #include <string>
 #include <map>
 #include <errno.h>
+#include <stdlib.h>
 #define USER_NUM 480189 
 #define ITEM_NUM 17770
 #define DIR_PATH "./transfer_set/"
 using namespace std;
 
+map<int,short> probeMatrix[USER_NUM+1];   
 int main()
 {
     DIR *dp;
     char rateStr[256];
     struct dirent *dirp;
-    map<int,short> probeMatrix[USER_NUM+1];   
     
     //first load the file:probe_real.txt 首先读取probe_real.txt 文件
     ifstream in("probe_real.txt");
