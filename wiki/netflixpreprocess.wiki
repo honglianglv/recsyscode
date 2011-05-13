@@ -11,6 +11,8 @@ the steps of pre-process the netflix dataset
 the steps of pre-process the netflix dataset is as follows:
   * make the userId sequential  
   (1) scan all the ratings to get a map between original userId and new sequential userId ,and scan all the rating files and transfer the rating to new sequential userId . (./dataset/netflix/getUserSeqId.php)->get new rating files in ./dataset/netflix/transfer_set/<br/>
+       cd ./dataset/netflix/
+       mkdir transfer_set
        php getUserSeqId.php  //(this is a script of php, you should have php installed, maybe I will rewrite this programme in c++ soon)
       _important notice_
         because there are 17770 files to deal, the php programme takes a lot of memorys, you'd better change the memory limit of php to more than 1G(it's usaully 16M in default). The steps to change the memory limit: a.  Find the php.ini file: "php -i | grep 'php\.ini'",  b. Change the memory limit: find the memory limit setting section and change it.<br/>
