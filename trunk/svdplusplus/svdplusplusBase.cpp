@@ -130,13 +130,13 @@ namespace svd{
                     int itemI = rateMatrix[u][i].item;
                     short rui = rateMatrix[u][i].rate; //实际的打分 real rate
                     double bui = mean + bu[u] + bi[itemI];
-                    //pui = predictRate(u,itemI,mean,bu,bi,p[u],q[itemI],dim);
                     pui = predictRate(u,itemI,dim);  //predict rate
                     
                     float eui = rui - pui;
                     
                     if( isnan(eui) ) {// fabs(eui) >= 4.2 || 
-                        cout<<u<<'\t'<<i<<'\t'<<pui<<'\t'<<rui<<"    "<<bu[u]<<"    "<<bi[itemI]<<"    "<<mean<<endl;
+                        cout<<u<<'\t'<<itemI<<'\t'<<pui<<'\t'<<rui<<"    "<<bu[u]<<"    "<<bi[itemI];
+                        cout<<"    "<<mean<<"    "<<q[itemI][1]<<endl;
                         //printArray(q[itemI],p[u],K_NUM+1);
                         exit(1);
                     }

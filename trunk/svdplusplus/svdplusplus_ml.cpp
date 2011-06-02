@@ -22,7 +22,7 @@
 #include "../mlBase.cpp"
 #define USER_NUM 943 //10K:943 1M:6040
 #define ITEM_NUM 1682 //10K:1682 1M:3900
-#define K_NUM  50     //dimension
+#define K_NUM  5     //dimension
 #define TRAINING_SET "../dataset/movielens/ua.test" //training set
 #define PROBE_SET "../dataset/movielens/ua.base"  //test set
 #define RATE_SP "	"  //rate Separator
