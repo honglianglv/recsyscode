@@ -36,8 +36,8 @@ int main(int argc, char ** argv)
     start = time(NULL);
     startInfo = localtime(&start);
     string startStr = asctime(startInfo);
-    float alpha1 = 0.008;    //according suggestion of xlvector
-    float alpha2 = 0.008;    //according suggestion of xlvector
+    float alpha1 = 0.007;    //according suggestion of xlvector
+    float alpha2 = 0.007;    //according suggestion of xlvector
     float beta1  = 0.01;     //according suggestion of xlvector
     float beta2  = 0.01;     //according suggestion of xlvector  
     //for(int i=0; i < 10; i++)
