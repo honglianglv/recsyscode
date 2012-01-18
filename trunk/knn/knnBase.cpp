@@ -177,8 +177,8 @@ float predictRate(int user, int item, int dim)
     float ret =0.0;
     if(sumDenominator > 0.02) ret =  mi[item] + (sumNumerator/sumDenominator);
     else ret =  mi[item];
-    if(ret < 1.0) ret = 1;
-    if(ret > 5.0) ret = 5;
+    if(ret < MIN_RATE) ret = MIN_RATE;
+    if(ret > MAX_RATE) ret = MAX_RATE;
     return ret;
 }
 #endif // KNN_KNNBASE_CPP_ 

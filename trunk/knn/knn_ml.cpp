@@ -20,6 +20,8 @@
 #include "../mlBase.cpp"
 #define USER_NUM 943 //10K:943 1M:6040
 #define ITEM_NUM 1682 //10K:1682 1M:3900
+#define MIN_RATE 1    // the minimum of the rate
+#define MAX_RATE 5    // the maximum of the rate
 #define K_NUM  50     //dimension
 #define TRAINING_SET "../dataset/movielens/u1.test" //training set
 #define PROBE_SET "../dataset/movielens/u1.base"  //test set
