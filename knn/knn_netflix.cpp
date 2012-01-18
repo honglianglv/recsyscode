@@ -23,6 +23,8 @@
 #define USER_NUM 480189  //10K:943 1M:6040
 #define ITEM_NUM 17770 //10K:1682 1M:3900
 #define K_NUM  50
+#define MIN_RATE 1    // the minimum of the rate
+#define MAX_RATE 5    // the maximum of the rate
 #define TRAINING_SET "../dataset/netflix/data_without_prob.txt"
 #define PROBE_SET "../dataset/netflix/probe_real.txt"
 #define RATE_SP ","  //rate Separator
