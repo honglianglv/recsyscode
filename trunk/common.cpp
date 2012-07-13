@@ -142,8 +142,8 @@ int partition(myType array[], int start,int end)
     float tmp = array[start];
     ++start;
     while(1) {
-        while( start<=end && array[start] >= tmp)++start;
-        while( start<=end && array[end] < tmp)--end;
+        while (start<=end && array[start] >= tmp) ++start;
+        while (start<=end && array[end] < tmp) --end;
         if(start < end) {
             swap(array[start],array[end]);
         }
